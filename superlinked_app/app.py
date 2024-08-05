@@ -147,7 +147,7 @@ source_product: RestSource = RestSource(product_schema)
 source_user: RestSource = RestSource(user_schema)
 source_event: RestSource = RestSource(event_schema)
 
-redis_vector_database = RedisVectorDatabase("redis-18118.c328.europe-west3-1.gce.cloud.redislabs.com", 18118, username="default", password="7InsdOKm3MoA4SDplFF7DVEEf0bTlkud")
+redis_vector_database = RedisVectorDatabase("redis-18118.c328.europe-west3-1.gce.cloud.redislabs.com", 18118, username="default", password="*****")
 
 executor = RestExecutor(
     sources=[source_product, source_user, source_event],
