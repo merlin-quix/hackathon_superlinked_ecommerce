@@ -26,6 +26,26 @@ from superlinked.framework.dsl.storage.redis_vector_database import RedisVectorD
 # Define schemas
 @schema
 class ProductSchema:
+    """
+    Defines a schema for product data, specifying attributes such as description,
+    name, category, price, review count and rating, and an ID.
+
+    Attributes:
+        description (String): Required for a product's description. It can hold
+            any text data about the product, providing more information to customers
+            before they make a purchase.
+        name (String): Required for product objects, representing the name or title
+            of a product.
+        category (String): A characteristic or classification of the product, which
+            represents its grouping within a product hierarchy.
+        price (Integer): A numerical value representing the cost of a product.
+        review_count (Integer): A count of reviews for a product.
+        review_rating (Integer): Part of the product schema definition, representing
+            the average rating given by customers to a particular product based
+            on the number of reviews received.
+        id (IdField): Designated to uniquely identify a product instance.
+
+    """
     description: String
     name: String
     category: String
@@ -36,6 +56,23 @@ class ProductSchema:
 
 @schema
 class UserSchema:
+    """
+    Defines a data model for user preferences, comprising four attributes:
+    `preference_description`, `preference_name`, `preference_category`, and `id`.
+    It represents a structured representation of user preferences, enabling efficient
+    storage and retrieval.
+
+    Attributes:
+        preference_description (String): Part of the schema for a user's preferences.
+            It represents a brief description of the preference.
+        preference_name (String): Part of the schema definition for a user entity.
+            It represents the name of a user's preference.
+        preference_category (String): A field within the schema that represents a
+            category for user preferences.
+        id (IdField): Part of the UserSchema definition. It represents a unique
+            identifier for each user in the system.
+
+    """
     preference_description: String
     preference_name: String
     preference_category: String
@@ -43,6 +80,23 @@ class UserSchema:
 
 @event_schema
 class EventSchema:
+    """
+    Defines a data structure for events, comprising references to product and user
+    schemas, an event type, and three fields for storing unique identifiers and
+    timestamps: `id`, `created_at`.
+
+    Attributes:
+        product (SchemaReference[ProductSchema]): Referenced to a ProductSchema.
+        user (SchemaReference[UserSchema]): Referenced from the UserSchema.
+        event_type (String): A part of the schema definition for events. It
+            represents the type of event being described, allowing for categorization
+            and organization of different types of events.
+        id (IdField): Not further defined in this snippet. It likely represents a
+            unique identifier for each event.
+        created_at (CreatedAtField): Not further defined. It likely represents a
+            timestamp indicating when the event was created.
+
+    """
     product: SchemaReference[ProductSchema]
     user: SchemaReference[UserSchema]
     event_type: String
