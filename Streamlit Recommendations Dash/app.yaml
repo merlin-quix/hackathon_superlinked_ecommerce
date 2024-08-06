@@ -1,10 +1,6 @@
 name: Streamlit Recommendations Dash
 language: python
-variables:
-  - name: input
-    inputType: InputTopic
-    description: Name of the input topic to listen to.
-    required: true
+variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: streamlit_file.py
