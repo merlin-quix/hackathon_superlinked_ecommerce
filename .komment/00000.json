@@ -143,5 +143,45 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "Superlinked Server Sink/main.py",
+    "content": {
+      "structured": {
+        "description": "An application that consumes data from a topic using QuixStreams and stores it in Redis. The application uses environment variables to configure its connection to Redis. It reads data from the input topic and passes each value to a function `send_data_to_redis`, which converts the value to JSON, generates a unique key based on the value's 'key' field, and stores the JSON data in Redis under that key.",
+        "items": [
+          {
+            "id": "9c7d8d58-a97d-f1b0-814a-910c2e6b5af0",
+            "ancestors": [],
+            "description": "Takes a dictionary as input, converts it to JSON format, stores it in Redis using a unique key generated from the dictionary's 'id', and prints a message indicating successful storage.",
+            "params": [
+              {
+                "name": "value",
+                "type_name": "dict",
+                "description": "Expected to contain data that will be sent to Redis for storage. The value contains an 'id' which is used to create a unique key."
+              }
+            ],
+            "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "send_data_to_redis({\"key\": \"example\", \"value\": \"Hello, Redis!\"})",
+              "description": ""
+            },
+            "name": "send_data_to_redis",
+            "location": {
+              "start": 26,
+              "insert": 27,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 11,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]

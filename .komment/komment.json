@@ -1,17 +1,19 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-06T12:35:31.542Z",
+    "updated_at": "2024-08-06T13:16:32.252Z",
     "created_at": "2024-08-05T13:47:40.393Z",
     "pipelines": [
       "f0880a40-d3c0-4524-a003-b3a1225271b7",
       "a9bc2af1-0d53-409e-bf3e-e8538523b982",
-      "de21e0ea-937c-4bd7-b18c-aef8551e1901"
+      "de21e0ea-937c-4bd7-b18c-aef8551e1901",
+      "a8d4d63b-e620-4925-97bc-18f9cb6bacbc"
     ]
   },
   "lookup": [
     [
-      "superlinked_app/app.py"
+      "superlinked_app/app.py",
+      "Superlinked Server Sink/main.py"
     ]
   ]
 }
