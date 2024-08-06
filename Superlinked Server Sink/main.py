@@ -3,7 +3,7 @@ import random
 import time
 import os
 import json
-
+import requests
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
@@ -26,15 +26,13 @@ def generate_current_timestamp():
 def send_data_to_superlinked(data: dict) -> None:
 
     """
-    Sends a POST request to the Superlinked API with data from a dictionary. The
-    payload is formatted as JSON and includes user, product, event type, a randomly
-    generated ID, and current timestamp. The response status code and text are
-    printed or logged in case of an error.
+    Sends a JSON payload to the Superlinked API for ingesting event data, with
+    attributes such as user, product, and event type. If the response is not
+    successful (202), it logs the error to a file.
 
     Args:
-        data (dict): Expected to contain the keys 'user', 'product', 'event_type'.
-            The values for these keys are used to construct a payload dictionary
-            before sending it to the Superlinked API.
+        data (dict): Required to be passed when calling this function. It is
+            expected to contain keys 'user', 'product' and 'event_type'.
 
     """
     payload = {
