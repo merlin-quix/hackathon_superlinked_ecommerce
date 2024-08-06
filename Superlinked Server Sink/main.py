@@ -25,9 +25,9 @@ input_topic = app.topic(os.environ["input"])
 
 def send_data_to_redis(value: dict) -> None:
 
-    
+
     response = requests.post(
-        f'http://{superlinked_address}:8080/api/v1/ingest/event_schema',
+        f'http://{superlinked_host}:{8080}/api/v1/ingest/event_schema',
         headers={
             'Accept': '*/*',
             'Content-Type': 'application/json'
