@@ -183,5 +183,15 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "ingest-events/main.py",
+    "content": {
+      "structured": {
+        "description": "An application using Quix Streams library and uses it to simulate a data source by generating random events for various user-product combinations. The code reads from a hardcoded dataset, determines possible event types based on history for each combination, generates payloads with event information, and publishes them to Kafka topics using the Producer object provided by Quix Streams.",
+        "items": []
+      }
+    }
   }
 ]
