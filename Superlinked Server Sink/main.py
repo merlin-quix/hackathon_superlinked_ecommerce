@@ -26,15 +26,14 @@ def generate_current_timestamp():
 def send_data_to_superlinked(data: dict) -> None:
 
     """
-    Sends a POST request to Superlinked's API with JSON payload containing user,
-    product, event type, and generated ID and timestamp. It prints the response
-    status code and text, logging any failed events to an error log file if the
-    response is not 202.
+    Sends a JSON payload to the Superlinked API's ingest endpoint for event schema,
+    containing user, product, and event type information, along with a generated
+    random ID and current timestamp. It logs the response status code and text,
+    if not successful.
 
     Args:
-        data (dict): Expected to contain key-value pairs representing user, product,
-            event_type. The exact structure and content of this data are not
-            specified within the provided code.
+        data (dict): Expected to contain three keys: 'user', 'product', and
+            'event_type'. These keys are then used to construct the payload dictionary.
 
     """
     payload = {
@@ -60,7 +59,7 @@ def send_data_to_superlinked(data: dict) -> None:
     # Check if response is not 202 and log to a file
     if response.status_code != 202:
         with open('error_log.txt', 'a') as log_file:
-            log_file.write(f"Failed event {payload['id']}: {response.status_code} - {response.text}\n')
+            log_file.write(f"Failed event {payload['id']}: {response.status_code} - {response.text}\n")
 
 
 sdf = app.dataframe(input_topic)
