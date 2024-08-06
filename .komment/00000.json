@@ -1,0 +1,147 @@
+[
+  {
+    "name": "app.py",
+    "path": "superlinked_app/app.py",
+    "content": {
+      "structured": {
+        "description": "And instantiates various data structures and components in Superlinked's framework for natural language processing and information retrieval. It includes schema definitions for product and user entities, an event schema, space definitions for text and number embeddings, event weights, an index with associated effects, a query object, and sources for restful API endpoints. The code also sets up a vector database connection to Redis and registers the components in the Superlinked registry.",
+        "items": [
+          {
+            "id": "89f60bdb-2a9f-4b81-8f4a-af4001ab1291",
+            "ancestors": [],
+            "description": "Defines a data schema for product information. It includes fields for description, name, category, price, review count, and rating, as well as an ID field. This schema outlines the structure and type of data for each product attribute.",
+            "attributes": [
+              {
+                "name": "description",
+                "type_name": "String",
+                "description": "Mandatory as it has no default value assigned. It represents a description of the product."
+              },
+              {
+                "name": "name",
+                "type_name": "String",
+                "description": "Required to hold a name for the product. It can be any string value, without any specific length or format restriction."
+              },
+              {
+                "name": "category",
+                "type_name": "String",
+                "description": "Described as a category of the product, likely representing a broad or narrow classification within a product hierarchy."
+              },
+              {
+                "name": "price",
+                "type_name": "Integer",
+                "description": "Represented as a whole number with no decimal places, indicating the monetary value of a product."
+              },
+              {
+                "name": "review_count",
+                "type_name": "Integer",
+                "description": "Intended to store the count of reviews for a product."
+              },
+              {
+                "name": "review_rating",
+                "type_name": "Integer",
+                "description": "A representation of the average rating given by customers for a product based on their reviews."
+              },
+              {
+                "name": "id",
+                "type_name": "IdField",
+                "description": "Part of the schema for products. It represents a unique identifier for each product, likely used to identify or link to specific products within the system."
+              }
+            ],
+            "name": "ProductSchema",
+            "location": {
+              "start": 27,
+              "insert": 29,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 9,
+            "docLength": null
+          },
+          {
+            "id": "bb0076cb-458d-ddb9-1643-b2677fd3f953",
+            "ancestors": [],
+            "description": "Defines a schema for user preferences, comprising four fields: `preference_description`, `preference_name`, `preference_category`, and `id`. This schema provides a structured format for storing and managing user preferences.",
+            "attributes": [
+              {
+                "name": "preference_description",
+                "type_name": "String",
+                "description": "Used to describe a user's preference."
+              },
+              {
+                "name": "preference_name",
+                "type_name": "String",
+                "description": "Part of the schema definition for user preferences. It likely represents a descriptive name or label for a user's preference, such as \"Favorite Color\" or \"Preferred Language\"."
+              },
+              {
+                "name": "preference_category",
+                "type_name": "String",
+                "description": "Part of a user's preferences, likely categorizing their specific preference (e.g., music genre)."
+              },
+              {
+                "name": "id",
+                "type_name": "IdField",
+                "description": "A unique identifier for each user object."
+              }
+            ],
+            "name": "UserSchema",
+            "location": {
+              "start": 37,
+              "insert": 39,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 6,
+            "docLength": null
+          },
+          {
+            "id": "abba30eb-076d-e186-494c-6683fd7c9cd1",
+            "ancestors": [],
+            "description": "Defines a schema for representing events, which can be products or user-related actions. It contains fields for product and user references, event type, unique ID, and creation timestamp. This schema provides structure for storing and querying events in a database or API response.",
+            "attributes": [
+              {
+                "name": "product",
+                "type_name": "SchemaReference[ProductSchema]",
+                "description": "Referenced from another schema, indicating that it represents a reference to a ProductSchema object."
+              },
+              {
+                "name": "user",
+                "type_name": "SchemaReference[UserSchema]",
+                "description": "Referenced from a UserSchema."
+              },
+              {
+                "name": "event_type",
+                "type_name": "String",
+                "description": "Part of the schema definition for events. It represents the type of event being recorded."
+              },
+              {
+                "name": "id",
+                "type_name": "IdField",
+                "description": "Implicitly considered as a unique identifier for each event instance, allowing it to be uniquely identified and referenced throughout the system."
+              },
+              {
+                "name": "created_at",
+                "type_name": "CreatedAtField",
+                "description": "Expected to be present in all instances of this schema. Its presence suggests that it stores information related to when the event was created, likely as a timestamp."
+              }
+            ],
+            "name": "EventSchema",
+            "location": {
+              "start": 44,
+              "insert": 46,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 7,
+            "docLength": null
+          }
+        ]
+      }
+    }
+  }
+]
