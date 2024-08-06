@@ -1,8 +1,8 @@
 from quixstreams import Application
-
+import random
+import time
 import os
 import json
-import redis
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -15,17 +15,26 @@ app = Application(consumer_group="superlinked-destination")
 
 input_topic = app.topic(os.environ["input"])
 
+# Function to generate random event ID
+def generate_random_event_id():
+    return f"event_{random.randint(1000, 9999)}"
+
+# Function to generate current timestamp
+def generate_current_timestamp():
+    return int(time.time())
 
 def send_data_to_superlinked(data: dict) -> None:
 
     """
-    Sends a JSON payload to a Superlinked API for event schema ingestion. It
-    generates a random event ID and current timestamp, formats data from an input
-    dictionary, and logs errors if the response status code is not 202.
+    Sends a POST request to Superlinked's API with JSON payload containing user,
+    product, event type, and generated ID and timestamp. It prints the response
+    status code and text, logging any failed events to an error log file if the
+    response is not 202.
 
     Args:
-        data (dict): Expected to contain key-value pairs, specifically 'user',
-            'product' and 'event_type'.
+        data (dict): Expected to contain key-value pairs representing user, product,
+            event_type. The exact structure and content of this data are not
+            specified within the provided code.
 
     """
     payload = {
