@@ -6,7 +6,7 @@ variables:
     description: This is the input topic
     defaultValue: user-events
     required: true
-  - name: redis_host
+  - name: superlinked_host
     inputType: FreeText
     description: Host address for the Redis instance
     defaultValue: ''
