@@ -3,7 +3,6 @@ import random
 import time
 import os
 import json
-import redis
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
