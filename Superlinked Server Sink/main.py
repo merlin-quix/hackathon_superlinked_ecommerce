@@ -25,20 +25,20 @@ input_topic = app.topic(os.environ["input"])
 
 def send_data_to_redis(value: dict) -> None:
 
-    
+
     """
-    Sends a JSON payload to an HTTP endpoint, checks if the response is successful
-    (status code 202), and logs any errors to a file. If unsuccessful, it writes
-    the error details to the log file.
+    Posts a JSON payload to a specified URL, verifying the response status code
+    is 202. If not, it writes an error log. The function prints success or failure
+    messages along with the response details.
 
     Args:
-        value (dict): Not directly used within the function, indicating that it
-            might be intended to store data prior to sending it to Redis. However,
-            its purpose remains unclear without additional context.
+        value (dict): Required by the function. Its content and usage are not
+            specified within this code snippet, but it is expected to be used as
+            a payload for sending data to Redis through a POST request.
 
     """
     response = requests.post(
-        f'http://{superlinked_address}:8080/api/v1/ingest/event_schema',
+        f'http://{superlinked_host}:{8080}/api/v1/ingest/event_schema',
         headers={
             'Accept': '*/*',
             'Content-Type': 'application/json'

@@ -149,23 +149,23 @@
     "path": "Superlinked Server Sink/main.py",
     "content": {
       "structured": {
-        "description": "An application that consumes data from a Quix topic and sends it to Redis and also makes a POST request to another API endpoint. The application uses the quixstreams library for event processing and redis for storing data. It loads environment variables from a .env file and uses them to connect to Redis and make requests.",
+        "description": "An application that consumes data from a Quix topic, updates each record by sending it to a Redis database and an event schema API, and logs errors if the response is not successful. It uses the quixstreams package for message consumption and the requests library for HTTP communication with the API. The app also utilizes environment variables for configuration purposes.",
         "items": [
           {
-            "id": "7f7048a3-0868-16af-8046-7393f703370d",
+            "id": "a4e71eea-45c9-e2ac-ed4f-c7d75ae80d74",
             "ancestors": [],
-            "description": "Sends a JSON payload to an HTTP endpoint, checks if the response is successful (status code 202), and logs any errors to a file. If unsuccessful, it writes the error details to the log file.",
+            "description": "Posts a JSON payload to a specified URL, verifying the response status code is 202. If not, it writes an error log. The function prints success or failure messages along with the response details.",
             "params": [
               {
                 "name": "value",
                 "type_name": "dict",
-                "description": "Not directly used within the function, indicating that it might be intended to store data prior to sending it to Redis. However, its purpose remains unclear without additional context."
+                "description": "Required by the function. Its content and usage are not specified within this code snippet, but it is expected to be used as a payload for sending data to Redis through a POST request."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "payload = {'id': 1, 'data': {'key1': 'value1', 'key2': 'value2'}}\nsend_data_to_redis(payload)",
+              "code": "payload = {'id': 1, 'data': {'key': 'value'}}\nsend_data_to_redis(payload)",
               "description": ""
             },
             "name": "send_data_to_redis",
