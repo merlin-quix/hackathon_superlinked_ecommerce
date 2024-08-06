@@ -149,35 +149,35 @@
     "path": "Superlinked Server Sink/main.py",
     "content": {
       "structured": {
-        "description": "An application that consumes data from a Quix topic, updates each record by sending it to a Redis database and an event schema API, and logs errors if the response is not successful. It uses the quixstreams package for message consumption and the requests library for HTTP communication with the API. The app also utilizes environment variables for configuration purposes.",
+        "description": "An application that consumes data from a Kafka topic and sends it to Superlinked for event processing. It uses the QuixStreams library to connect to the topic and process the data in real-time. The processed data is sent as HTTP POST requests to Superlinked's API, with error handling implemented for failed events.",
         "items": [
           {
-            "id": "a4e71eea-45c9-e2ac-ed4f-c7d75ae80d74",
+            "id": "a2e68c63-31fe-ceb3-b741-a5d87e763c1f",
             "ancestors": [],
-            "description": "Posts a JSON payload to a specified URL, verifying the response status code is 202. If not, it writes an error log. The function prints success or failure messages along with the response details.",
+            "description": "Sends a JSON payload to a Superlinked API for event schema ingestion. It generates a random event ID and current timestamp, formats data from an input dictionary, and logs errors if the response status code is not 202.",
             "params": [
               {
-                "name": "value",
+                "name": "data",
                 "type_name": "dict",
-                "description": "Required by the function. Its content and usage are not specified within this code snippet, but it is expected to be used as a payload for sending data to Redis through a POST request."
+                "description": "Expected to contain key-value pairs, specifically 'user', 'product' and 'event_type'."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "payload = {'id': 1, 'data': {'key': 'value'}}\nsend_data_to_redis(payload)",
+              "code": "data = {\n    'user': 'john_doe',\n    'product': 'super_linked_product',\n    'event_type': 'purchase'\n}\n\nsend_data_to_superlinked(data)",
               "description": ""
             },
-            "name": "send_data_to_redis",
+            "name": "send_data_to_superlinked",
             "location": {
-              "start": 26,
-              "insert": 29,
+              "start": 19,
+              "insert": 21,
               "offset": " ",
               "indent": 4,
               "comment": null
             },
             "item_type": "function",
-            "length": 17,
+            "length": 23,
             "docLength": null
           }
         ]
