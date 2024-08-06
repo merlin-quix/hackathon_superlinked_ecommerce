@@ -1,4 +1,4 @@
-name: ingest-events
+name: generate-events
 language: Python
 variables:
   - name: input
