@@ -1,117 +1,139 @@
-import threading
 import streamlit as st
+import requests
+import pandas as pd
 import time
-import threading
-from data_queue import DataQueue
-from data_consumer import DataConsumer
+from datetime import datetime
 
-st.set_page_config(
-    page_title="Streamlit Dashboard",
-    page_icon="favicon.png",
-    layout="wide",
-)
-
-# Basic changes to the default theme can be done via the .streamlit/config.toml file.
-# For custom css update the style.css file 
-with open("style.css") as f:
-    st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-
-st.header("Streamlit Dashboard")
-
-# PARAMETERS SECTION
-# Define a list of parameters to show in select widgets.
-AVAILABLE_PARAMS = []
-
-# Create a placeholder for the loading spinner
-loading_placeholder = st.empty()
-
-placeholder_col1, placeholder_col2 = st.columns(2)
-placeholder_raw = None
-parameter1 = None
-parameter2 = None
-
-def build_dashboard_layout():
-    global placeholder_col1, placeholder_col2, placeholder_raw, parameter1, parameter2
-
-    # Create two columns for the select boxes and their headers
-    header_col1, header_col2 = st.columns(2)
-
-    with header_col1:
-        st.markdown("### Chart 1 Title")
-        parameter1 = st.selectbox(
-            "Select Parameter 1",
-            options=AVAILABLE_PARAMS,
-            index=0,
-            key="parameter1_select"
-        )
-
-    with header_col2:
-        st.markdown("### Chart 2 Title")
-        parameter2 = st.selectbox(
-            "Select Parameter 2",
-            options=AVAILABLE_PARAMS,
-            index=1,
-            key="parameter2_select"
-        )
-
-    # Create two columns for the charts
-    placeholder_col1, placeholder_col2 = st.columns(2)
-
-    # Initialize placeholders for the charts
-    placeholder_col1 = placeholder_col1.empty()  # Placeholder for the first chart
-    placeholder_col2 = placeholder_col2.empty()  # Placeholder for the second chart
-
-    # Placeholder for the raw data table below the charts
-    placeholder_raw = st.empty()
+# Define the URL and headers
+url = 'http://34.71.253.51:8080/api/v1/search/query'
+headers = {
+    'Accept': '*/*',
+    'Content-Type': 'application/json'
+}
 
 
-@st.cache_resource
-def queue_init():
-    queue = DataQueue()
-    queue.start()
-    return queue
+# Function to get data from the API
+def get_data(user_id):
+    print(f"[{datetime.now()}] Running query...")
+    payload = {
+        "user_id": user_id,
+        "query_text": "",
+        "description_weight": 1,
+        "category_weight": 1,
+        "name_weight": 1,
+        "price_weight": 1,
+        "review_count_weight": 1,
+        "review_rating_weight": 1,
+        "limit": 10
+    }
 
-@st.cache_resource
-def data_consumer_init(_queue: DataQueue):
-    dc = DataConsumer(_queue)
-    thread = threading.Thread(target=dc.start)
-    thread.start()
-    return dc
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        data = response.json()
+        results = data.get('results', [])
+        extracted_data = [result['obj'] for result in results]
+        df = pd.DataFrame(extracted_data)
+        return df
+    else:
+        st.error(f"Request failed with status code {response.status_code}: {response.text}")
+        return pd.DataFrame()
 
-# Unique client connection id generated per browser tab.
-conid = threading.current_thread().ident
 
-# Blocking queue that exposes Quix data to Streamlit components.
-queue = queue_init()
+# Streamlit UI
+st.title("Real-time API Query with Streamlit")
 
-# Data consumer that generates the view model from Quix data for the Streamlit components.
-data_consumer = data_consumer_init(queue)
+# Dropdown for user selection
+user_id = st.selectbox("Select User ID", ["user_1", "user_2"])
 
-# Event loop to update streamlit components. Try not to copy/modify the dataframes within
-# this loop.
+# Input fields for weights
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Description Weight")
+with col2:
+    description_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="description_weight")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Category Weight")
+with col2:
+    category_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="category_weight")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Name Weight")
+with col2:
+    name_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="name_weight")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Price Weight")
+with col2:
+    price_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="price_weight")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Review Count Weight")
+with col2:
+    review_count_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="review_count_weight")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.write("Review Rating Weight")
+with col2:
+    review_rating_weight = st.number_input("", min_value=0.0, max_value=10.0, value=1.0, key="review_rating_weight")
+
+# Placeholder for the dataframe
+data_placeholder = st.empty()
+
+# Placeholder for countdown text
+countdown_placeholder = st.empty()
+
+# Function to get data and cache it
+@st.cache_data
+def get_cached_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight):
+    return get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)
+
+# Function to get data from the API
+def get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight):
+    print(f"[{datetime.now()}] Running query...")
+    payload = {
+        "user_id": user_id,
+        "query_text": "",
+        "description_weight": description_weight,
+        "category_weight": category_weight,
+        "name_weight": name_weight,
+        "price_weight": price_weight,
+        "review_count_weight": review_count_weight,
+        "review_rating_weight": review_rating_weight,
+        "limit": 10
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        data = response.json()
+        results = data.get('results', [])
+        extracted_data = [result['obj'] for result in results]
+        df = pd.DataFrame(extracted_data)
+        return df
+    else:
+        st.error(f"Request failed with status code {response.status_code}: {response.text}")
+        return pd.DataFrame()
+
+# Main loop
 while True:
+    # Get the data
+    df = get_cached_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)
 
-    # Event loop to update streamlit components. Try not to copy/modify the dataframes within
-    # this loop.
-    if not AVAILABLE_PARAMS:
-        # Show loading spinner while waiting for AVAILABLE_PARAMS to be populated
-        with loading_placeholder:
-            with st.spinner('Waiting for parameters...'):
-                while not AVAILABLE_PARAMS:
-                    AVAILABLE_PARAMS = data_consumer.get_available_params()
-                    time.sleep(0.1)  # Sleep briefly to avoid busy waiting
+    # Display the dataframe
+    data_placeholder.dataframe(df)
 
-    # Once AVAILABLE_PARAMS is populated, clear the spinner and build the dashboard layout
-    if AVAILABLE_PARAMS and not parameter1 and not parameter2:
-        build_dashboard_layout()
+    # Countdown
+    for i in range(10, 0, -1):
+        countdown_placeholder.text(f"Refreshing in {i} seconds...")
+        time.sleep(1)
 
-    # If parameters are selected, display the charts
-    if parameter1 and parameter2:
-        df = queue.get(conid)  # Make sure this is non-blocking or handled in a separate thread
-        with placeholder_col1:
-            st.line_chart(df, x="datetime", y=[parameter1], height=300)
-        with placeholder_col2:
-            st.line_chart(df, x="datetime", y=[parameter2], height=300)
-        with placeholder_raw:
-            st.markdown("### Raw Data View")
-            st.dataframe(df)
+    # Clear the countdown text
+    countdown_placeholder.empty()
+
+    # Clear the cache to fetch new data
+    get_cached_data.clear()
