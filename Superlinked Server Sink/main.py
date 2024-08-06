@@ -11,7 +11,7 @@ load_dotenv()
 superlinked_host=os.environ['superlinked_host']
 superlinked_port=os.environ['superlinked_port']
 
-app = Application(consumer_group="superlinked-destination")
+app = Application(consumer_group="superlinked-destination",auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 
