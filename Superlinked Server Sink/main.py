@@ -48,7 +48,7 @@ def send_data_to_superlinked(data: dict) -> None:
     # Check if response is not 202 and log to a file
     if response.status_code != 202:
         with open('error_log.txt', 'a') as log_file:
-            log_file.write(f"Failed event {payload['id']}: {response.status_code} - {response.text}\n')
+            log_file.write(f"Failed event {payload['id']}: {response.status_code} - {response.text}\n")
 
 
 sdf = app.dataframe(input_topic)
