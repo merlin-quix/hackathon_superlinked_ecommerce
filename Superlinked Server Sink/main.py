@@ -11,7 +11,7 @@ load_dotenv()
 superlinked_host=os.environ['superlinked_host']
 superlinked_port=os.environ['superlinked_port']
 
-app = Application(consumer_group="superlinked-destination",auto_offset_reset="earliest")
+app = Application(consumer_group="superlinked-destination-v1.0",auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 
@@ -26,13 +26,14 @@ def generate_current_timestamp():
 def send_data_to_superlinked(data: dict) -> None:
 
     """
-    Sends a JSON payload to the Superlinked API for ingesting event data, with
-    attributes such as user, product, and event type. If the response is not
-    successful (202), it logs the error to a file.
+    Sends a POST request to an API endpoint with JSON payload containing user,
+    product, event type, and generated IDs. It prints response status code and
+    text, and logs errors if the response is not 202 (Accepted).
 
     Args:
-        data (dict): Required to be passed when calling this function. It is
-            expected to contain keys 'user', 'product' and 'event_type'.
+        data (dict): Expected to contain three keys: 'user', 'product', and
+            'event_type'. The function uses these values to construct a payload
+            for sending to the Superlinked API.
 
     """
     payload = {

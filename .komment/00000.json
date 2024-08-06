@@ -149,23 +149,23 @@
     "path": "Superlinked Server Sink/main.py",
     "content": {
       "structured": {
-        "description": "An event processing application using QuixStreams, which processes events from a Kafka topic and sends them to a Superlinked service for ingestion. The application reads data from a specified input topic, generates random event IDs and timestamps, and then posts the data to the Superlinked API. If the response is not successful (status code 202), the error is logged to a file.",
+        "description": "An application that consumes data from a topic and sends it to Superlinked via the HTTP API for event schema ingest. It uses QuixStreams' Application class and the requests library for HTTP communication. The code generates random event IDs and timestamps, and logs errors in a file if the response status is not 202.",
         "items": [
           {
-            "id": "d62f68f8-71a3-6d9a-b94e-7954445af637",
+            "id": "b7b9d768-1b60-e9b3-8e40-0e7017177531",
             "ancestors": [],
-            "description": "Sends a JSON payload to the Superlinked API for ingesting event data, with attributes such as user, product, and event type. If the response is not successful (202), it logs the error to a file.",
+            "description": "Sends a POST request to an API endpoint with JSON payload containing user, product, event type, and generated IDs. It prints response status code and text, and logs errors if the response is not 202 (Accepted).",
             "params": [
               {
                 "name": "data",
                 "type_name": "dict",
-                "description": "Required to be passed when calling this function. It is expected to contain keys 'user', 'product' and 'event_type'."
+                "description": "Expected to contain three keys: 'user', 'product', and 'event_type'. The function uses these values to construct a payload for sending to the Superlinked API."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "data = {\n    'user': 'user123',\n    'product': 'ProductA',\n    'event_type': 'purchase'\n}\nsend_data_to_superlinked(data)",
+              "code": "send_data_to_superlinked({\n    'user': 'John Doe', \n    'product': 'ABC Inc.', \n    'event_type': 'purchase'\n})",
               "description": ""
             },
             "name": "send_data_to_superlinked",
