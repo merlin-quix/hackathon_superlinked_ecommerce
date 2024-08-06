@@ -27,25 +27,25 @@ from superlinked.framework.dsl.storage.redis_vector_database import RedisVectorD
 @schema
 class ProductSchema:
     """
-    Defines a data structure for representing product information, including
-    description, name, category, price, number of reviews, average rating, and
-    unique identifier. This schema enables structured data storage and retrieval
-    for products in an application.
+    Defines a data schema for product information. It includes fields for description,
+    name, category, price, review count, and rating, as well as an ID field. This
+    schema outlines the structure and type of data for each product attribute.
 
     Attributes:
-        description (String): Optional, as it does not have any additional
-            specifications such as uniqueness or default values defined.
-        name (String): Required for a product, representing its identifying name
-            or title.
-        category (String): Used to store a category name or label for each product,
-            representing its classification or grouping within a larger hierarchy.
-        price (Integer): Representative of a product's price.
-        review_count (Integer): Part of a product's schema. It likely represents
-            the total number of reviews received by that product, providing
-            information about its popularity or user engagement.
-        review_rating (Integer): A measure of the overall rating given by customers
-            to the product, typically on a scale of 1-5 or 1-10.
-        id (IdField): Intended to store a unique identifier for each product instance.
+        description (String): Mandatory as it has no default value assigned. It
+            represents a description of the product.
+        name (String): Required to hold a name for the product. It can be any
+            string value, without any specific length or format restriction.
+        category (String): Described as a category of the product, likely representing
+            a broad or narrow classification within a product hierarchy.
+        price (Integer): Represented as a whole number with no decimal places,
+            indicating the monetary value of a product.
+        review_count (Integer): Intended to store the count of reviews for a product.
+        review_rating (Integer): A representation of the average rating given by
+            customers for a product based on their reviews.
+        id (IdField): Part of the schema for products. It represents a unique
+            identifier for each product, likely used to identify or link to specific
+            products within the system.
 
     """
     description: String
@@ -59,21 +59,18 @@ class ProductSchema:
 @schema
 class UserSchema:
     """
-    Defines a schema for user preferences, consisting of four fields:
-    `preference_description`, `preference_name`, `preference_category`, and `id`.
-    The `id` field is specifically designated as an `IdField`, implying it serves
-    as the unique identifier for each user preference.
+    Defines a schema for user preferences, comprising four fields: `preference_description`,
+    `preference_name`, `preference_category`, and `id`. This schema provides a
+    structured format for storing and managing user preferences.
 
     Attributes:
-        preference_description (String): Named as `preference_description`. It
-            appears to represent a descriptive text related to user preferences.
-        preference_name (String): Part of the schema definition. It represents a
-            named preference of a user, possibly used to categorize or identify
-            specific preferences.
-        preference_category (String): A property that represents the category of
-            a user's preference.
-        id (IdField): Represented by the keyword `id`. It is a unique identifier
-            for each user.
+        preference_description (String): Used to describe a user's preference.
+        preference_name (String): Part of the schema definition for user preferences.
+            It likely represents a descriptive name or label for a user's preference,
+            such as "Favorite Color" or "Preferred Language".
+        preference_category (String): Part of a user's preferences, likely
+            categorizing their specific preference (e.g., music genre).
+        id (IdField): A unique identifier for each user object.
 
     """
     preference_description: String
@@ -84,21 +81,23 @@ class UserSchema:
 @event_schema
 class EventSchema:
     """
-    Defines a schema for an event, which consists of four parts: a product, a user,
-    an event type, and an ID and creation time stamp. The event is structured using
-    other predefined schemas (`ProductSchema` and `UserSchema`).
+    Defines a schema for representing events, which can be products or user-related
+    actions. It contains fields for product and user references, event type, unique
+    ID, and creation timestamp. This schema provides structure for storing and
+    querying events in a database or API response.
 
     Attributes:
-        product (SchemaReference[ProductSchema]): Referenced from a schema defined
-            for the ProductSchema.
-        user (SchemaReference[UserSchema]): Referenced to the UserSchema, indicating
-            that it is a reference to another schema, specifically the UserSchema.
-        event_type (String): Required to define the type of event being tracked
-            or monitored, which can be used for categorization and filtering purposes.
-        id (IdField): Not further defined within this code snippet, suggesting it
-            might be a unique identifier for the event.
-        created_at (CreatedAtField): A field representing the timestamp when the
-            event was created.
+        product (SchemaReference[ProductSchema]): Referenced from another schema,
+            indicating that it represents a reference to a ProductSchema object.
+        user (SchemaReference[UserSchema]): Referenced from a UserSchema.
+        event_type (String): Part of the schema definition for events. It represents
+            the type of event being recorded.
+        id (IdField): Implicitly considered as a unique identifier for each event
+            instance, allowing it to be uniquely identified and referenced throughout
+            the system.
+        created_at (CreatedAtField): Expected to be present in all instances of
+            this schema. Its presence suggests that it stores information related
+            to when the event was created, likely as a timestamp.
 
     """
     product: SchemaReference[ProductSchema]
