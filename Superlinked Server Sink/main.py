@@ -4,21 +4,14 @@ import os
 import json
 import redis
 
-
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-r = redis.Redis(
-    host=os.environ['redis_host'],
-    port=int(int(os.environ['redis_port'])),
-    password=os.environ['redis_password'],
-    username=os.environ['redis_username'] if 'redis_username' in os.environ else None,
-    decode_responses=True)
+superlinked_host=os.environ['superlinked_host']
+superlinked_port=os.environ['superlinked_port']
 
-redis_key_prefix = os.environ['redis_key_prefix']
-
-app = Application.Quix(consumer_group="redis-destination")
+app = Application(consumer_group="redis-destination")
 
 input_topic = app.topic(os.environ["input"])
 
@@ -27,7 +20,7 @@ def send_data_to_redis(value: dict) -> None:
 
 
     response = requests.post(
-        f'http://{superlinked_host}:{8080}/api/v1/ingest/event_schema',
+        f'http://{superlinked_host}:{superlinked_port}/api/v1/ingest/event_schema',
         headers={
             'Accept': '*/*',
             'Content-Type': 'application/json'
