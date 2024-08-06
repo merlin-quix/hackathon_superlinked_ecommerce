@@ -20,6 +20,30 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: user-events
+  - name: Superlinked Server Sink
+    application: Superlinked Server Sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: user-events
+      - name: superlinked_host
+        inputType: FreeText
+        description: Host address for the superlinked instance
+        required: true
+        value: 34.71.253.51
+      - name: superlinked_port
+        inputType: FreeText
+        description: Port for the superlinked instance
+        required: true
+        value: 8080
 
 # This section describes the Topics of the data pipeline
 topics:
