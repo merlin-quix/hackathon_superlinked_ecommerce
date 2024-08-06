@@ -8,8 +8,8 @@ variables:
     required: true
   - name: superlinked_host
     inputType: FreeText
-    description: Host address for the Redis instance
-    defaultValue: ''
+    description: Host address for the superlinked instance
+    defaultValue: 34.71.253.51
     required: true
   - name: superlinked_port
     inputType: FreeText
