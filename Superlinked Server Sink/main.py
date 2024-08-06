@@ -1,5 +1,6 @@
 from quixstreams import Application
-
+import random
+import time
 import os
 import json
 import redis
@@ -15,6 +16,13 @@ app = Application(consumer_group="superlinked-destination")
 
 input_topic = app.topic(os.environ["input"])
 
+# Function to generate random event ID
+def generate_random_event_id():
+    return f"event_{random.randint(1000, 9999)}"
+
+# Function to generate current timestamp
+def generate_current_timestamp():
+    return int(time.time())
 
 def send_data_to_superlinked(data: dict) -> None:
 
