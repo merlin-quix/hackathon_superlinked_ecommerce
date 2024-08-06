@@ -149,23 +149,23 @@
     "path": "Superlinked Server Sink/main.py",
     "content": {
       "structured": {
-        "description": "An application that consumes data from a topic and sends it to Superlinked platform for processing. It uses QuixStreams library for Kafka consumer and requests library for making HTTP POST request to Superlinked API. The code generates random event IDs and timestamps before sending the data, and logs errors in a file if the response status code is not 202.",
+        "description": "An application that consumes data from a topic and sends it to a Superlinked event ingestion endpoint for processing. The application uses QuixStreams library for consuming data and requests library for sending POST requests. It generates random event IDs and timestamps before sending the events, and logs errors to a file if the response status is not 202.",
         "items": [
           {
-            "id": "bd4282b7-f994-0d84-1045-2d27b99ac140",
+            "id": "d3cd9fd9-a871-5081-b14a-192efe36d0aa",
             "ancestors": [],
-            "description": "Sends a JSON payload to the Superlinked API's ingest endpoint for event schema, containing user, product, and event type information, along with a generated random ID and current timestamp. It logs the response status code and text, if not successful.",
+            "description": "Sends a POST request to the Superlinked API with data from a dictionary. The payload is formatted as JSON and includes user, product, event type, a randomly generated ID, and current timestamp. The response status code and text are printed or logged in case of an error.",
             "params": [
               {
                 "name": "data",
                 "type_name": "dict",
-                "description": "Expected to contain three keys: 'user', 'product', and 'event_type'. These keys are then used to construct the payload dictionary."
+                "description": "Expected to contain the keys 'user', 'product', 'event_type'. The values for these keys are used to construct a payload dictionary before sending it to the Superlinked API."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "data = {'user': '12345', 'product': 'widget', 'event_type': 'purchase'}\nsend_data_to_superlinked(data)",
+              "code": "data = {\"user\": \"Alice\", \"product\": \"Widget\", \"event_type\": \"purchase\"}\nsend_data_to_superlinked(data)",
               "description": ""
             },
             "name": "send_data_to_superlinked",
