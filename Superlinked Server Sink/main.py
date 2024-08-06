@@ -11,12 +11,20 @@ load_dotenv()
 superlinked_host=os.environ['superlinked_host']
 superlinked_port=os.environ['superlinked_port']
 
-app = Application(consumer_group="redis-destination")
+app = Application(consumer_group="superlinked-destination")
 
 input_topic = app.topic(os.environ["input"])
 
 
-def send_data_to_redis(value: dict) -> None:
+def send_data_to_superlinked(data: dict) -> None:
+
+    payload = {
+            "user": data['user'],
+            "product": data['product'],
+            "event_type": data['event_type'],
+            "id": generate_random_event_id(),  # Generate random event ID
+            "created_at": generate_current_timestamp()  # Generate current timestamp
+        }
 
 
     response = requests.post(
@@ -37,7 +45,7 @@ def send_data_to_redis(value: dict) -> None:
 
 
 sdf = app.dataframe(input_topic)
-sdf = sdf.update(send_data_to_redis)
+sdf = sdf.update(send_data_to_superlinked)
 
 if __name__ == "__main__":
     print("Starting application")
