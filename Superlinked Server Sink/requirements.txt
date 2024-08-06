@@ -1,3 +1,2 @@
-quixstreams<2.4
-redis
+quixstreams
 python-dotenv
