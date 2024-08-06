@@ -24,31 +24,34 @@ input_topic = app.topic(os.environ["input"])
 
 
 def send_data_to_redis(value: dict) -> None:
+
+    
     """
-    Takes a dictionary as input, converts it to JSON format, stores it in Redis
-    using a unique key generated from the dictionary's 'id', and prints a message
-    indicating successful storage.
+    Sends a JSON payload to an HTTP endpoint, checks if the response is successful
+    (status code 202), and logs any errors to a file. If unsuccessful, it writes
+    the error details to the log file.
 
     Args:
-        value (dict): Expected to contain data that will be sent to Redis for
-            storage. The value contains an 'id' which is used to create a unique
-            key.
+        value (dict): Not directly used within the function, indicating that it
+            might be intended to store data prior to sending it to Redis. However,
+            its purpose remains unclear without additional context.
 
     """
-    print(value)
+    response = requests.post(
+        f'http://{superlinked_address}:8080/api/v1/ingest/event_schema',
+        headers={
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        },
+        json=payload
+    )
 
-    # Convert the entire dictionary to a JSON string
-    json_data = json.dumps(value)
+    print(f"Response for event {payload['id']}: {response.status_code} - {response.text}")
 
-    # Use a Redis key for storing the JSON data. This key can be a combination of
-    # some unique identifier in your value dict, like a timestamp or a specific tag.
-    # For this example, let's assume you have a unique 'id' in your value dict.
-    key = f"{redis_key_prefix}:{value['key']}"
-
-    # Store the JSON string in Redis
-    r.set(key, json_data)
-
-    print(f"Data stored in Redis under key: {key}")
+    # Check if response is not 202 and log to a file
+    if response.status_code != 202:
+        with open('error_log.txt', 'a') as log_file:
+            log_file.write(f"Failed event {payload['id']}: {response.status_code} - {response.text}\n')
 
 
 sdf = app.dataframe(input_topic)
