@@ -16,11 +16,6 @@ variables:
     description: Port for the superlinked instance
     defaultValue: 8080
     required: true
-  - name: redis_username
-    inputType: FreeText
-    description: Username for the Redis instance
-    defaultValue: ''
-    required: false
   - name: redis_key_prefix
     inputType: FreeText
     description: The prefix for the key to store data under
