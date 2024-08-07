@@ -38,7 +38,7 @@ deployments:
         inputType: FreeText
         description: Host address for the superlinked instance
         required: true
-        value: 34.71.253.51
+        value: 35.184.52.168
       - name: superlinked_port
         inputType: FreeText
         description: Port for the superlinked instance
