@@ -1,6 +1,11 @@
 name: Streamlit Recommendations Dash
 language: python
-variables: []
+variables:
+  - name: superlinked_host
+    inputType: FreeText
+    description: ''
+    defaultValue: 35.184.52.168
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: streamlit_file.py
