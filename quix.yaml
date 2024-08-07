@@ -55,7 +55,17 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: streamlitrecommendationsdash-129fede
-    variables: []
+    variables:
+      - name: superlinked_host
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 35.184.52.168
+      - name: superlinked_port
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 8080
 
 # This section describes the Topics of the data pipeline
 topics:
