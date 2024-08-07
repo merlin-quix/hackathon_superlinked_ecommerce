@@ -2,10 +2,14 @@ import streamlit as st
 import requests
 import pandas as pd
 import time
+import os
 from datetime import datetime
 
+host = os.environ["superlinked_host"]
+port = os.environ["superlinked_port"]
+
 # Define the URL and headers
-url = 'http://34.71.253.51:8080/api/v1/search/query'
+url = f'http://{host}:{port}/api/v1/search/query'
 headers = {
     'Accept': '*/*',
     'Content-Type': 'application/json'
