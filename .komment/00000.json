@@ -366,26 +366,26 @@
     "path": "Streamlit Recommendations Dash/main_backup.py",
     "content": {
       "structured": {
-        "description": "A Streamlit application that fetches data from an API based on user input and displays it in a dataframe. The data is fetched using requests library and then processed into a pandas DataFrame. The application allows users to select a user ID, set weights for different parameters, and then retrieves the corresponding data from the API.",
+        "description": "A web application using Streamlit that provides real-time recommendations based on user input and query parameters. It uses the Superlinked API to fetch data and pandas for data manipulation. The application features a dropdown menu for selecting users, sliders for adjusting weights of different criteria (description, category, name, price, review count, and review rating), and a countdown timer that refreshes the recommendation every 10 seconds.",
         "items": [
           {
-            "id": "54098809-7cd6-b3be-2246-de4f4b359f56",
+            "id": "c9b7a26e-aa60-509e-7346-4d9d6dc22ee6",
             "ancestors": [],
-            "description": "Retrieves data for a specified user ID by making a POST request to a URL, processing the response, and returning it as a Pandas DataFrame if successful. If the request fails, an error message is displayed and an empty DataFrame is returned.",
+            "description": "Retrieves data based on a given user ID by sending a POST request to a specified URL, parses the response JSON, extracts relevant information into a pandas DataFrame, and returns it. If the request fails, it displays an error message and returns an empty DataFrame.",
             "params": [
               {
                 "name": "user_id",
                 "type_name": "int | str",
-                "description": "Used to construct the payload dictionary that is sent as JSON in the POST request to the specified URL. It corresponds to the \"user_id\" key in the payload dictionary."
+                "description": "Used to construct a payload that contains information about the user for which data needs to be retrieved. It is required as part of the payload."
               }
             ],
             "returns": {
-              "type_name": "pdDataFrame",
-              "description": "A pandas DataFrame containing data extracted from the response if the request is successful and status code is 200, otherwise it returns an empty DataFrame."
+              "type_name": "pdDataFrame|pdDataFrame",
+              "description": "A DataFrame object if the request to the server is successful and it returns an empty DataFrame otherwise, indicating that the request failed or no data was extracted."
             },
             "usage": {
               "language": "python",
-              "code": "df = get_data(12345)",
+              "code": "user_id = 12345\ndf = get_data(user_id)\n",
               "description": ""
             },
             "name": "get_data",
@@ -401,53 +401,53 @@
             "docLength": null
           },
           {
-            "id": "65ef2511-71bd-4899-da46-b6fdb3ab6118",
+            "id": "124ce408-e197-b0bc-ec47-d4622161bda7",
             "ancestors": [],
-            "description": "Retrieves cached data for a user with a given ID and weights for different attributes. It calls an underlying function `get_data` with these parameters, which is expected to return relevant data. This allows for caching of frequently accessed data for improved performance.",
+            "description": "Retrieves and returns cached data for a given set of input parameters. It calls another function `get_data` with the same parameters, likely to fetch new data if it's not already cached or outdated.",
             "params": [
               {
                 "name": "user_id",
-                "type_name": "Any",
-                "description": "Expected to be passed by the caller of this function. It represents an identifier for a user in the system or application being used."
+                "type_name": "any",
+                "description": "Used as input to retrieve cached data from the user's profile. Its value determines which user's data will be retrieved."
               },
               {
                 "name": "description_weight",
-                "type_name": "int | float",
-                "description": "Used to calculate the importance or relevance of product description when ranking products for a given user ID."
+                "type_name": "float",
+                "description": "Used to specify the relative importance or weight of product description when calculating a weighted average score."
               },
               {
                 "name": "category_weight",
-                "type_name": "any",
-                "description": "Used to represent the importance or relevance of the category when calculating the weighted data for the user."
+                "type_name": "int",
+                "description": "Used to determine the weightage given to category information when calculating similarity scores for filtering data based on user preferences."
               },
               {
                 "name": "name_weight",
                 "type_name": "float",
-                "description": "Passed to the underlying `get_data` function. It seems to represent the relative importance of name when calculating the weighted score."
+                "description": "Used as a weight for the name attribute when retrieving data using the `get_data` function. It specifies how important the name attribute is relative to other attributes in the calculation."
               },
               {
                 "name": "price_weight",
-                "type_name": "int | float",
-                "description": "Used to specify the relative importance of price when retrieving data for a specific user ID."
+                "type_name": "float",
+                "description": "Used to weight the importance of the product's price when calculating its overall score. It represents the relative significance of price compared to other factors."
               },
               {
                 "name": "review_count_weight",
                 "type_name": "int",
-                "description": "Likely used to determine how much weight or importance should be given to the review count when calculating a ranking score for products."
+                "description": "Used to determine the weight given to the number of reviews when calculating the weighted average score for a product."
               },
               {
                 "name": "review_rating_weight",
                 "type_name": "float",
-                "description": "Part of the input to the `get_data` function."
+                "description": "7th in sequence among other weights, likely representing the weightage given to review ratings in a data retrieval process."
               }
             ],
             "returns": {
               "type_name": "Any",
-              "description": "Retrieved from calling `get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)`."
+              "description": "Cached result from a call to `get_data`. This caching allows for faster execution when the same inputs are provided again."
             },
             "usage": {
               "language": "python",
-              "code": "data = get_cached_data(1, 0.5, 0.3, 0.2, 0.1, 0.05, 0.15)",
+              "code": "result = get_cached_data(123, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6)",
               "description": ""
             },
             "name": "get_cached_data",
@@ -463,53 +463,53 @@
             "docLength": null
           },
           {
-            "id": "a9639650-10c8-69b5-2b48-13d767874cbf",
+            "id": "71c9a616-71d7-4da4-4846-4fe09756f30c",
             "ancestors": [],
-            "description": "Retrieves data from a specified API endpoint, filters it based on given weights for different parameters, and returns the results as a pandas DataFrame. It also prints a timestamped message when running the query and handles API errors by displaying an error message.",
+            "description": "Runs a POST request to a specified URL with a payload containing various weights and returns a pandas DataFrame containing extracted data if the response is successful, otherwise it displays an error message and returns an empty DataFrame.",
             "params": [
               {
                 "name": "user_id",
                 "type_name": "int",
-                "description": "Used as part of the payload to be sent in a POST request, likely specifying the ID of a user whose data will be retrieved from an API."
+                "description": "Likely used to filter or retrieve data based on a specific user's ID from an external database or API."
               },
               {
                 "name": "description_weight",
                 "type_name": "float",
-                "description": "Part of the payload sent to the server via a POST request. Its value represents the weightage given to the description field when querying data."
+                "description": "Used to specify the relative importance or relevance of the product description in the query. It is one of the factors considered when processing the user's request."
               },
               {
                 "name": "category_weight",
                 "type_name": "float",
-                "description": "Part of the payload sent to the API. It represents the weight assigned to the category when calculating the relevance score of search results."
+                "description": "Part of the payload sent to the requests.post method. It represents the weightage given to category in the query."
               },
               {
                 "name": "name_weight",
                 "type_name": "float",
-                "description": "Part of the payload sent in the POST request to the specified URL. It represents the weight assigned to the product name when filtering results."
+                "description": "Part of the payload being sent to the server as JSON. It represents the weight assigned to the name field in the query."
               },
               {
                 "name": "price_weight",
-                "type_name": "float",
-                "description": "Part of the payload dictionary sent to the API. It represents the weight or importance given to price while processing the query."
+                "type_name": "int",
+                "description": "6th in the list of parameters passed to the function. It represents the weight assigned to price when calculating a score for search results."
               },
               {
                 "name": "review_count_weight",
-                "type_name": "int | float",
-                "description": "7th in the list of parameters passed to this function. It represents a weightage for review count while processing queries."
+                "type_name": "int",
+                "description": "Part of the payload sent with the POST request to the specified URL. It represents the weight given to review count while evaluating query results."
               },
               {
                 "name": "review_rating_weight",
-                "type_name": "int",
-                "description": "Used to specify the weightage of review ratings while querying for data. Its value determines how much importance is given to review ratings during the query execution process."
+                "type_name": "float",
+                "description": "Used to determine the weight given to review ratings when calculating the overall score for a query result."
               }
             ],
             "returns": {
               "type_name": "pdDataFrame|pdDataFrame",
-              "description": "An empty DataFrame if the request fails, otherwise it contains data extracted from the API response and formatted into a DataFrame with 10 rows."
+              "description": "Empty if the request fails otherwise, it contains extracted data from a response."
             },
             "usage": {
               "language": "python",
-              "code": "data = get_data(12345, 0.5, 0.2, 0.1, 0.05, 0.1, 0.1)",
+              "code": "user_id = \"12345\"\ndescription_weight = 0.5\ncategory_weight = 0.3\nname_weight = 0.1\nprice_weight = 0.05\nreview_count_weight = 0.15\nreview_rating_weight = 0.01\n\ndf = get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)\n",
               "description": ""
             },
             "name": "get_data",
