@@ -360,5 +360,172 @@
         ]
       }
     }
+  },
+  {
+    "name": "main_backup.py",
+    "path": "Streamlit Recommendations Dash/main_backup.py",
+    "content": {
+      "structured": {
+        "description": "A Streamlit application that fetches data from an API based on user input and displays it in a dataframe. The data is fetched using requests library and then processed into a pandas DataFrame. The application allows users to select a user ID, set weights for different parameters, and then retrieves the corresponding data from the API.",
+        "items": [
+          {
+            "id": "54098809-7cd6-b3be-2246-de4f4b359f56",
+            "ancestors": [],
+            "description": "Retrieves data for a specified user ID by making a POST request to a URL, processing the response, and returning it as a Pandas DataFrame if successful. If the request fails, an error message is displayed and an empty DataFrame is returned.",
+            "params": [
+              {
+                "name": "user_id",
+                "type_name": "int | str",
+                "description": "Used to construct the payload dictionary that is sent as JSON in the POST request to the specified URL. It corresponds to the \"user_id\" key in the payload dictionary."
+              }
+            ],
+            "returns": {
+              "type_name": "pdDataFrame",
+              "description": "A pandas DataFrame containing data extracted from the response if the request is successful and status code is 200, otherwise it returns an empty DataFrame."
+            },
+            "usage": {
+              "language": "python",
+              "code": "df = get_data(12345)",
+              "description": ""
+            },
+            "name": "get_data",
+            "location": {
+              "start": 20,
+              "insert": 21,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 24,
+            "docLength": null
+          },
+          {
+            "id": "65ef2511-71bd-4899-da46-b6fdb3ab6118",
+            "ancestors": [],
+            "description": "Retrieves cached data for a user with a given ID and weights for different attributes. It calls an underlying function `get_data` with these parameters, which is expected to return relevant data. This allows for caching of frequently accessed data for improved performance.",
+            "params": [
+              {
+                "name": "user_id",
+                "type_name": "Any",
+                "description": "Expected to be passed by the caller of this function. It represents an identifier for a user in the system or application being used."
+              },
+              {
+                "name": "description_weight",
+                "type_name": "int | float",
+                "description": "Used to calculate the importance or relevance of product description when ranking products for a given user ID."
+              },
+              {
+                "name": "category_weight",
+                "type_name": "any",
+                "description": "Used to represent the importance or relevance of the category when calculating the weighted data for the user."
+              },
+              {
+                "name": "name_weight",
+                "type_name": "float",
+                "description": "Passed to the underlying `get_data` function. It seems to represent the relative importance of name when calculating the weighted score."
+              },
+              {
+                "name": "price_weight",
+                "type_name": "int | float",
+                "description": "Used to specify the relative importance of price when retrieving data for a specific user ID."
+              },
+              {
+                "name": "review_count_weight",
+                "type_name": "int",
+                "description": "Likely used to determine how much weight or importance should be given to the review count when calculating a ranking score for products."
+              },
+              {
+                "name": "review_rating_weight",
+                "type_name": "float",
+                "description": "Part of the input to the `get_data` function."
+              }
+            ],
+            "returns": {
+              "type_name": "Any",
+              "description": "Retrieved from calling `get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)`."
+            },
+            "usage": {
+              "language": "python",
+              "code": "data = get_cached_data(1, 0.5, 0.3, 0.2, 0.1, 0.05, 0.15)",
+              "description": ""
+            },
+            "name": "get_cached_data",
+            "location": {
+              "start": 96,
+              "insert": 98,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": null
+          },
+          {
+            "id": "a9639650-10c8-69b5-2b48-13d767874cbf",
+            "ancestors": [],
+            "description": "Retrieves data from a specified API endpoint, filters it based on given weights for different parameters, and returns the results as a pandas DataFrame. It also prints a timestamped message when running the query and handles API errors by displaying an error message.",
+            "params": [
+              {
+                "name": "user_id",
+                "type_name": "int",
+                "description": "Used as part of the payload to be sent in a POST request, likely specifying the ID of a user whose data will be retrieved from an API."
+              },
+              {
+                "name": "description_weight",
+                "type_name": "float",
+                "description": "Part of the payload sent to the server via a POST request. Its value represents the weightage given to the description field when querying data."
+              },
+              {
+                "name": "category_weight",
+                "type_name": "float",
+                "description": "Part of the payload sent to the API. It represents the weight assigned to the category when calculating the relevance score of search results."
+              },
+              {
+                "name": "name_weight",
+                "type_name": "float",
+                "description": "Part of the payload sent in the POST request to the specified URL. It represents the weight assigned to the product name when filtering results."
+              },
+              {
+                "name": "price_weight",
+                "type_name": "float",
+                "description": "Part of the payload dictionary sent to the API. It represents the weight or importance given to price while processing the query."
+              },
+              {
+                "name": "review_count_weight",
+                "type_name": "int | float",
+                "description": "7th in the list of parameters passed to this function. It represents a weightage for review count while processing queries."
+              },
+              {
+                "name": "review_rating_weight",
+                "type_name": "int",
+                "description": "Used to specify the weightage of review ratings while querying for data. Its value determines how much importance is given to review ratings during the query execution process."
+              }
+            ],
+            "returns": {
+              "type_name": "pdDataFrame|pdDataFrame",
+              "description": "An empty DataFrame if the request fails, otherwise it contains data extracted from the API response and formatted into a DataFrame with 10 rows."
+            },
+            "usage": {
+              "language": "python",
+              "code": "data = get_data(12345, 0.5, 0.2, 0.1, 0.05, 0.1, 0.1)",
+              "description": ""
+            },
+            "name": "get_data",
+            "location": {
+              "start": 101,
+              "insert": 102,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 24,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]
