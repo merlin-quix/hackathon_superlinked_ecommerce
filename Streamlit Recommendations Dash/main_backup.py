@@ -44,7 +44,7 @@ def get_data(user_id):
 
 
 # Streamlit UI
-st.title("Real-time API Query with Streamlit")
+st.title("Real-time Recommendations Query with Streamlit and Superlinked")
 
 # Dropdown for user selection
 user_id = st.selectbox("Select User ID", ["user_1", "user_2"])
