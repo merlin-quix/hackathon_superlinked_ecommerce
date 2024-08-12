@@ -57,6 +57,9 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: streamlitrecommendationsdash-b7f1327
     variables:
       - name: superlinked_host
         inputType: FreeText
