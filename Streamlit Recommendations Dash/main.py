@@ -101,7 +101,7 @@ def get_cached_data(user_id, description_weight, category_weight, name_weight, p
 def get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight):
     print(f"[{datetime.now()}] Running query...")
     payload = {
-        "user_id": user_id,
+        "user_id": str(user_id),
         "query_text": "",
         "description_weight": description_weight,
         "category_weight": category_weight,
