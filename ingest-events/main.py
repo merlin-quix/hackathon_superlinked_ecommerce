@@ -97,7 +97,7 @@ def main():
             print("Row published")
             
         upperdelay = int(os.environ["upper_delay"])
-        time.sleep(random.randint(1, upperdelay)
+        time.sleep(random.randint(1, upperdelay))
 
 
 if __name__ == "__main__":

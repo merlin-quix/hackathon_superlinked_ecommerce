@@ -189,7 +189,7 @@
     "path": "ingest-events/main.py",
     "content": {
       "structured": {
-        "description": "An application that simulates user interactions with products and publishes events to a Kafka topic using Quix Streams. It maintains a history of user-product combinations and generates random event types based on this history. The app uses environment variables for configuration, including the name of the Kafka topic and delay intervals.",
+        "description": "A Quix Streams application that simulates user-product interactions and publishes events to a Kafka topic. It uses randomization to generate product IDs, event types, users, and timestamps, then appends these events to an in-memory history for each unique combination of user-product. The events are published to the Kafka topic using the Quix Streams producer.",
         "items": []
       }
     }
