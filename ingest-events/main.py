@@ -96,7 +96,7 @@ def main():
 
             print("Row published")
             
-        time.sleep(random.randint(1, 10))
+        time.sleep(random.randint(1, 30))
 
 
 if __name__ == "__main__":
