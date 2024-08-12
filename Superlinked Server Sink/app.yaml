@@ -9,7 +9,7 @@ variables:
   - name: superlinked_host
     inputType: FreeText
     description: Host address for the superlinked instance
-    defaultValue: 34.71.253.51
+    defaultValue: 34.121.121.12
     required: true
   - name: superlinked_port
     inputType: FreeText
