@@ -19,19 +19,19 @@ headers = {
 # Function to get data from the API
 def get_data(user_id):
     """
-    Retrieves data for a specified `user_id` by sending a POST request to a URL,
-    parsing the JSON response, extracting relevant data into a Pandas DataFrame,
-    and returning it. If the request fails, it displays an error message and returns
-    an empty DataFrame.
+    Submits a POST request to a specified URL, passing a JSON payload containing
+    user ID and query parameters. If the response is successful (200 status code),
+    it extracts data from the response, converts it into a Pandas DataFrame, and
+    returns it. Otherwise, it displays an error message.
 
     Args:
-        user_id (int | str): Required for the function to execute successfully,
-            as it forms part of the payload that is sent with the HTTP POST request
-            to the specified URL.
+        user_id (int | str): Passed to the payload dictionary, which is used in
+            an HTTP POST request to retrieve data based on the provided user ID.
 
     Returns:
-        pdDataFrame|pdDataFrame: An empty DataFrame if the request fails, and a
-        DataFrame filled with extracted data if the request succeeds.
+        pdDataFrame: A pandas DataFrame object that contains the extracted data
+        from the query results, if the request is successful. If the request fails,
+        it returns an empty pandas DataFrame.
 
     """
     print(f"[{datetime.now()}] Running query...")
@@ -60,7 +60,7 @@ def get_data(user_id):
 
 
 # Streamlit UI
-st.title("Real-time API Query with Streamlit")
+st.title("Real-time Recommendations Query with Streamlit and Superlinked")
 
 # Dropdown for user selection
 user_id = st.selectbox("Select User ID", ["user_1", "user_2"])
@@ -112,35 +112,36 @@ countdown_placeholder = st.empty()
 @st.cache_data
 def get_cached_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight):
     """
-    Retrieves cached data based on user-defined weights for various attributes
-    such as user ID, description, category, name, price, and review metrics. It
-    caches the result using the `@st.cache_data` decorator to improve performance.
+    Caches the results of a call to `get_data` by using the `@st.cache_data`
+    decorator. It takes seven parameters and returns the result of the cached or
+    recalculated data based on these parameters.
 
     Args:
-        user_id (Any): Used as an input to the `get_data` function. Its value
-            represents a unique identifier for a user or item, allowing for data
-            retrieval based on this attribute.
-        description_weight (float | int): 1 of 7 weights used to calculate the
-            overall weight for each data point when fetching data from a database
-            using `get_data`.
-        category_weight (int | float): Likely used to determine the relative
-            importance or weightage given to the category attribute when calculating
-            some aggregated value, such as a score.
-        name_weight (float): Likely used to indicate the relative importance or
-            "weight" of the name attribute in the data retrieval process.
-        price_weight (float): Used to determine the importance of the price attribute
-            when calculating the weighted sum. Its value represents the relative
-            significance of the price in the overall calculation.
-        review_count_weight (int): Used as a weight to determine the importance
-            or relevance of the review count when calculating the ranking score
-            for a user's data.
-        review_rating_weight (float): Used to specify the relative importance of
-            review ratings in the calculation process, likely for weighting or
-            aggregating multiple factors affecting ranking.
+        user_id (any): Used to retrieve cached data for a specific user. It appears
+            to be an identifier that corresponds to a user entity, possibly used
+            to filter or query data related to that user.
+        description_weight (int | float): Used to specify the relative importance
+            or weighting factor for the description attribute when retrieving data
+            related to a specific user ID.
+        category_weight (int | float): Used to weight the importance of the category
+            in determining the ranking of items, likely within a machine learning
+            model or algorithm.
+        name_weight (float): 1 of the input parameters used to calculate the weights
+            for the data retrieval process, alongside other weight parameters such
+            as `description_weight`, `category_weight`, etc.
+        price_weight (float): Used to specify the relative importance or weightage
+            of price in calculating the score or ranking for each data item.
+        review_count_weight (float): Used to calculate the weighted importance of
+            the review count for filtering or sorting purposes, along with other
+            parameters such as description weight, category weight, etc.
+        review_rating_weight (float): Used to calculate the weightage or importance
+            given to the review rating while retrieving data for a user, with
+            higher values indicating greater significance.
 
     Returns:
-        object: The result of calling `get_data` with the specified arguments and
-        caching it for future use through the `@st.cache_data` decorator.
+        Any: Retrieved from the call to `get_data`. This implies that the result
+        depends on the actual arguments passed and their corresponding weights,
+        but it's not clear without additional context what data is being retrieved.
 
     """
     return get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)
@@ -148,37 +149,37 @@ def get_cached_data(user_id, description_weight, category_weight, name_weight, p
 # Function to get data from the API
 def get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight):
     """
-    Retrieves data from a URL via a POST request, using weights to filter results
-    by user ID, description, category, name, price, review count, and review rating.
-    The response is parsed into a pandas DataFrame if successful, otherwise an
-    error message is displayed.
+    Retrieves data from an API using a POST request and converts it to a Pandas
+    DataFrame. It takes several weights as parameters, which are likely used for
+    filtering or ranking results. The function returns a DataFrame containing the
+    extracted data if the request is successful; otherwise, it returns an empty DataFrame.
 
     Args:
-        user_id (int | str): Expected to be passed as an input to the function.
-            It appears to play a crucial role in constructing the payload sent in
-            the POST request, along with other parameters.
-        description_weight (int | float): Used to specify the weight of description
-            attribute in the query.
-        category_weight (float): Part of the JSON payload that is sent to the API
-            via a POST request. It likely represents the relative importance of
-            the category attribute in the search query.
-        name_weight (float): Used to specify the weightage of product name in a
-            search query. It determines how much importance should be given to
-            product name while searching for data.
-        price_weight (float): Used to determine the weight given to price when
-            querying data. It appears that this value is used to adjust the
-            importance of price in the query results.
-        review_count_weight (int): Part of a JSON payload that gets sent to a
-            server via an HTTP POST request. It represents the weight given to
-            review count in ranking results.
-        review_rating_weight (int): 1 of the 8 parameters used to filter and rank
-            search results based on their review ratings, along with other weights
-            for description, category, name, price, and review count.
+        user_id (str | int): Required for the request payload to fetch data from
+            an API based on the provided user ID.
+        description_weight (float): Used to weight the importance of the product
+            description in the search query. It is passed along with other weights
+            for category, name, price, review count, and review rating to influence
+            the search results.
+        category_weight (float): Used as part of the payload for a POST request
+            to a specified URL. It represents a weight value corresponding to the
+            category attribute of data records being queried.
+        name_weight (float): Used to determine the weightage given to the name
+            attribute when querying data from an API. It affects the relevance of
+            results based on the importance assigned to this attribute.
+        price_weight (float): Part of a JSON payload sent as a POST request to an
+            unknown URL (`url`). It appears to be used for filtering or ranking
+            search results based on product price.
+        review_count_weight (int): Used to specify the weight assigned to the
+            review count when calculating the overall relevance score of results
+            returned from the query.
+        review_rating_weight (float): Part of the payload sent to the API through
+            a POST request. It represents the relative importance of review ratings
+            when ranking results.
 
     Returns:
-        pdDataFrame|pdDataFrame: 0 rows and columns if request fails, otherwise
-        it returns a pandas DataFrame containing extracted data. The DataFrame's
-        number of rows depends on the 'limit' parameter set to 10 in the payload.
+        pdDataFrame: A pandas DataFrame object if the request was successful and
+        data could be extracted, otherwise it returns an empty pandas DataFrame.
 
     """
     print(f"[{datetime.now()}] Running query...")
@@ -203,6 +204,7 @@ def get_data(user_id, description_weight, category_weight, name_weight, price_we
         return df
     else:
         st.error(f"Request failed with status code {response.status_code}: {response.text}")
+        print(f"Request failed with status code {response.status_code}: {response.text}")
         return pd.DataFrame()
 
 # Main loop

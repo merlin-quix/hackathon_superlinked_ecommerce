@@ -199,27 +199,27 @@
     "path": "Streamlit Recommendations Dash/main.py",
     "content": {
       "structured": {
-        "description": "A Streamlit application that allows users to query an API with specific weights for filtering results. It uses the requests library to send POST requests to the API and pandas to manipulate data. The application has a dropdown menu for selecting user IDs, input fields for adjusting weights, and displays the results in a dataframe.",
+        "description": "A Streamlit UI that allows users to query a Superlinked API for real-time recommendations based on user input weights. The app uses pandas and requests packages to fetch data from the API and display it in a table. It also employs caching to avoid unnecessary API calls, utilizing the `@st.cache_data` decorator.",
         "items": [
           {
-            "id": "b479a2d8-33cc-eb8a-654a-8610da9d9863",
+            "id": "a66900fe-bd50-30b1-b348-71c15efc1ac2",
             "ancestors": [],
-            "description": "Retrieves data for a specified `user_id` by sending a POST request to a URL, parsing the JSON response, extracting relevant data into a Pandas DataFrame, and returning it. If the request fails, it displays an error message and returns an empty DataFrame.",
+            "description": "Submits a POST request to a specified URL, passing a JSON payload containing user ID and query parameters. If the response is successful (200 status code), it extracts data from the response, converts it into a Pandas DataFrame, and returns it. Otherwise, it displays an error message.",
             "params": [
               {
                 "name": "user_id",
                 "type_name": "int | str",
-                "description": "Required for the function to execute successfully, as it forms part of the payload that is sent with the HTTP POST request to the specified URL."
+                "description": "Passed to the payload dictionary, which is used in an HTTP POST request to retrieve data based on the provided user ID."
               }
             ],
             "returns": {
-              "type_name": "pdDataFrame|pdDataFrame",
-              "description": "An empty DataFrame if the request fails, and a DataFrame filled with extracted data if the request succeeds."
+              "type_name": "pdDataFrame",
+              "description": "A pandas DataFrame object that contains the extracted data from the query results, if the request is successful. If the request fails, it returns an empty pandas DataFrame."
             },
             "usage": {
               "language": "python",
-              "code": "data = get_data(12345)\n",
-              "description": "\nIn this example, the function get_data returns a DataFrame containing data related to the user with ID 12345."
+              "code": "data = get_data(1234)\n",
+              "description": "\n\nNote: The provided code assumes that 'url' and 'headers' are defined elsewhere in the script."
             },
             "name": "get_data",
             "location": {
@@ -234,53 +234,53 @@
             "docLength": null
           },
           {
-            "id": "a5d3f84e-c29a-0f9b-c842-b8ee99b25a4b",
+            "id": "ffd6559d-1b55-1cb9-b945-4d9e58054a53",
             "ancestors": [],
-            "description": "Retrieves cached data based on user-defined weights for various attributes such as user ID, description, category, name, price, and review metrics. It caches the result using the `@st.cache_data` decorator to improve performance.",
+            "description": "Caches the results of a call to `get_data` by using the `@st.cache_data` decorator. It takes seven parameters and returns the result of the cached or recalculated data based on these parameters.",
             "params": [
               {
                 "name": "user_id",
-                "type_name": "Any",
-                "description": "Used as an input to the `get_data` function. Its value represents a unique identifier for a user or item, allowing for data retrieval based on this attribute."
+                "type_name": "any",
+                "description": "Used to retrieve cached data for a specific user. It appears to be an identifier that corresponds to a user entity, possibly used to filter or query data related to that user."
               },
               {
                 "name": "description_weight",
-                "type_name": "float | int",
-                "description": "1 of 7 weights used to calculate the overall weight for each data point when fetching data from a database using `get_data`."
+                "type_name": "int | float",
+                "description": "Used to specify the relative importance or weighting factor for the description attribute when retrieving data related to a specific user ID."
               },
               {
                 "name": "category_weight",
                 "type_name": "int | float",
-                "description": "Likely used to determine the relative importance or weightage given to the category attribute when calculating some aggregated value, such as a score."
+                "description": "Used to weight the importance of the category in determining the ranking of items, likely within a machine learning model or algorithm."
               },
               {
                 "name": "name_weight",
                 "type_name": "float",
-                "description": "Likely used to indicate the relative importance or \"weight\" of the name attribute in the data retrieval process."
+                "description": "1 of the input parameters used to calculate the weights for the data retrieval process, alongside other weight parameters such as `description_weight`, `category_weight`, etc."
               },
               {
                 "name": "price_weight",
                 "type_name": "float",
-                "description": "Used to determine the importance of the price attribute when calculating the weighted sum. Its value represents the relative significance of the price in the overall calculation."
+                "description": "Used to specify the relative importance or weightage of price in calculating the score or ranking for each data item."
               },
               {
                 "name": "review_count_weight",
-                "type_name": "int",
-                "description": "Used as a weight to determine the importance or relevance of the review count when calculating the ranking score for a user's data."
+                "type_name": "float",
+                "description": "Used to calculate the weighted importance of the review count for filtering or sorting purposes, along with other parameters such as description weight, category weight, etc."
               },
               {
                 "name": "review_rating_weight",
                 "type_name": "float",
-                "description": "Used to specify the relative importance of review ratings in the calculation process, likely for weighting or aggregating multiple factors affecting ranking."
+                "description": "Used to calculate the weightage or importance given to the review rating while retrieving data for a user, with higher values indicating greater significance."
               }
             ],
             "returns": {
-              "type_name": "object",
-              "description": "The result of calling `get_data` with the specified arguments and caching it for future use through the `@st.cache_data` decorator."
+              "type_name": "Any",
+              "description": "Retrieved from the call to `get_data`. This implies that the result depends on the actual arguments passed and their corresponding weights, but it's not clear without additional context what data is being retrieved."
             },
             "usage": {
               "language": "python",
-              "code": "get_cached_data(123, 0.2, 0.3, 0.1, 0.4, 0.5, 0.6)",
+              "code": "result = get_cached_data(12345, 0.2, 0.4, 0.1, 0.3, 0.6, 0.5)",
               "description": ""
             },
             "name": "get_cached_data",
@@ -296,53 +296,53 @@
             "docLength": null
           },
           {
-            "id": "f864f30f-f3c7-6391-c44b-41915a0190d1",
+            "id": "4b3dbfe8-ea34-1f93-8f40-5fa2391d9eef",
             "ancestors": [],
-            "description": "Retrieves data from a URL via a POST request, using weights to filter results by user ID, description, category, name, price, review count, and review rating. The response is parsed into a pandas DataFrame if successful, otherwise an error message is displayed.",
+            "description": "Retrieves data from an API using a POST request and converts it to a Pandas DataFrame. It takes several weights as parameters, which are likely used for filtering or ranking results. The function returns a DataFrame containing the extracted data if the request is successful; otherwise, it returns an empty DataFrame.",
             "params": [
               {
                 "name": "user_id",
-                "type_name": "int | str",
-                "description": "Expected to be passed as an input to the function. It appears to play a crucial role in constructing the payload sent in the POST request, along with other parameters."
+                "type_name": "str | int",
+                "description": "Required for the request payload to fetch data from an API based on the provided user ID."
               },
               {
                 "name": "description_weight",
-                "type_name": "int | float",
-                "description": "Used to specify the weight of description attribute in the query."
+                "type_name": "float",
+                "description": "Used to weight the importance of the product description in the search query. It is passed along with other weights for category, name, price, review count, and review rating to influence the search results."
               },
               {
                 "name": "category_weight",
                 "type_name": "float",
-                "description": "Part of the JSON payload that is sent to the API via a POST request. It likely represents the relative importance of the category attribute in the search query."
+                "description": "Used as part of the payload for a POST request to a specified URL. It represents a weight value corresponding to the category attribute of data records being queried."
               },
               {
                 "name": "name_weight",
                 "type_name": "float",
-                "description": "Used to specify the weightage of product name in a search query. It determines how much importance should be given to product name while searching for data."
+                "description": "Used to determine the weightage given to the name attribute when querying data from an API. It affects the relevance of results based on the importance assigned to this attribute."
               },
               {
                 "name": "price_weight",
                 "type_name": "float",
-                "description": "Used to determine the weight given to price when querying data. It appears that this value is used to adjust the importance of price in the query results."
+                "description": "Part of a JSON payload sent as a POST request to an unknown URL (`url`). It appears to be used for filtering or ranking search results based on product price."
               },
               {
                 "name": "review_count_weight",
                 "type_name": "int",
-                "description": "Part of a JSON payload that gets sent to a server via an HTTP POST request. It represents the weight given to review count in ranking results."
+                "description": "Used to specify the weight assigned to the review count when calculating the overall relevance score of results returned from the query."
               },
               {
                 "name": "review_rating_weight",
-                "type_name": "int",
-                "description": "1 of the 8 parameters used to filter and rank search results based on their review ratings, along with other weights for description, category, name, price, and review count."
+                "type_name": "float",
+                "description": "Part of the payload sent to the API through a POST request. It represents the relative importance of review ratings when ranking results."
               }
             ],
             "returns": {
-              "type_name": "pdDataFrame|pdDataFrame",
-              "description": "0 rows and columns if request fails, otherwise it returns a pandas DataFrame containing extracted data. The DataFrame's number of rows depends on the 'limit' parameter set to 10 in the payload."
+              "type_name": "pdDataFrame",
+              "description": "A pandas DataFrame object if the request was successful and data could be extracted, otherwise it returns an empty pandas DataFrame."
             },
             "usage": {
               "language": "python",
-              "code": "user_id = 12345\ndescription_weight = 0.5\ncategory_weight = 0.3\nname_weight = 0.1\nprice_weight = 0.05\nreview_count_weight = 0.15\nreview_rating_weight = 0.2\n\ndata = get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)\n",
+              "code": "user_id = 1234\ndescription_weight = 0.5\ncategory_weight = 0.3\nname_weight = 0.1\nprice_weight = 0.05\nreview_count_weight = 0.05\nreview_rating_weight = 0.05\n\ndata_frame = get_data(user_id, description_weight, category_weight, name_weight, price_weight, review_count_weight, review_rating_weight)\n",
               "description": ""
             },
             "name": "get_data",
@@ -354,7 +354,7 @@
               "comment": null
             },
             "item_type": "function",
-            "length": 24,
+            "length": 25,
             "docLength": null
           }
         ]
