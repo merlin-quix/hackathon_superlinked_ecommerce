@@ -4,7 +4,7 @@ variables:
   - name: superlinked_host
     inputType: FreeText
     description: ''
-    defaultValue: 35.184.52.168
+    defaultValue: 34.121.121.12
     required: false
   - name: superlinked_port
     inputType: FreeText
