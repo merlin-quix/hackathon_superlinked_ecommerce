@@ -46,7 +46,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: false
-        value: 35.184.52.168
+        value: 34.121.121.12
       - name: superlinked_port
         inputType: FreeText
         description: ''
