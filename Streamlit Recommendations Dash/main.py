@@ -121,6 +121,7 @@ def get_data(user_id, description_weight, category_weight, name_weight, price_we
         return df
     else:
         st.error(f"Request failed with status code {response.status_code}: {response.text}")
+        print(f"Request failed with status code {response.status_code}: {response.text}")
         return pd.DataFrame()
 
 # Main loop
