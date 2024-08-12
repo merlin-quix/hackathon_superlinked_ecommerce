@@ -49,6 +49,25 @@ deployments:
         description: ''
         required: false
         value: 30
+  - name: Streamlit Recommendations Dash
+    application: Streamlit Recommendations Dash
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: superlinked_host
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 34.121.121.12
+      - name: superlinked_port
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 8080
 
 # This section describes the Topics of the data pipeline
 topics:
