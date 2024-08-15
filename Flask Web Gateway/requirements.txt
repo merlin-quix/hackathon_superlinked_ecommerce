@@ -1,4 +1,4 @@
-quixstreams==2.3.2
+quixstreams
 flask
 flask_cors
 waitress
