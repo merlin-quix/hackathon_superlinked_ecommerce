@@ -743,5 +743,68 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "Streamlit Real-time API-based/main.py",
+    "content": {
+      "structured": {
+        "description": "A real-time dashboard using Streamlit and Quix Cloud that reads data from MotherDuck database, performs some transformations on the data, and displays it in a Bokeh chart and table format. The dashboard also includes a countdown timer that refreshes the data every few seconds.",
+        "items": [
+          {
+            "id": "8860b7f4-b492-aaa6-e044-3346bb1208b9",
+            "ancestors": [],
+            "description": "Runs a SQL query to retrieve data from a database table, sorts the results by `page_id`, and returns the data as a Pandas DataFrame. The query execution time is also printed to the console with the current timestamp.",
+            "params": [],
+            "returns": {
+              "type_name": "pandasDataFrame",
+              "description": "A tabular structure with rows and columns of data, where each row represents a single observation or sample, and each column represents a variable or feature of the sample."
+            },
+            "usage": {
+              "language": "python",
+              "code": "data = get_data()\n",
+              "description": "\n\nNote that this code snippet assumes that the necessary imports and variables such as datetime, table_name, conn are defined earlier."
+            },
+            "name": "get_data",
+            "location": {
+              "start": 23,
+              "insert": 24,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 5,
+            "docLength": null
+          },
+          {
+            "id": "c8cdd878-2376-70a2-f148-1104395b9627",
+            "ancestors": [],
+            "description": "Caches the result of calling the `get_data` function and returns it instead of recomputing it, improving performance by reducing the number of times `get_data` is executed.",
+            "params": [],
+            "returns": {
+              "type_name": "Any",
+              "description": "A result from calling `get_data` function, either cached data or new computation if it's not cached yet."
+            },
+            "usage": {
+              "language": "python",
+              "code": "cached_result = get_cached_data()\n",
+              "description": ""
+            },
+            "name": "get_cached_data",
+            "location": {
+              "start": 30,
+              "insert": 32,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]
