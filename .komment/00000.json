@@ -607,40 +607,40 @@
     "path": "MotherDuck Write/main.py",
     "content": {
       "structured": {
-        "description": "An application using QuixStreams and DuckDB libraries. It connects to a MotherDuck database and logs events from an input topic into a table named \"user_events\". The data is processed in batches and written to the database table.",
+        "description": "An application that consumes data from a Kafka topic and writes it into a persisted DuckDB database. The application uses the QuixStreams library to connect to the Kafka topic and create a streaming dataframe from its input. The code then checks if a target table exists in the database, creates it if not, and inserts data into it while updating counts for existing page IDs.",
         "items": [
           {
-            "id": "336bcf84-64b2-3faf-7d43-d51dcb31f08b",
+            "id": "6638ff74-ac48-d49e-584c-a786fa60db20",
             "ancestors": [],
-            "description": "Collects statistics from a message, specifically referral records, and writes them to a DuckDB database table. It checks if the table exists before creating it, then inserts new records into the table with their respective values.",
+            "description": "Executes an SQL query to insert data into a table, specifying page ID and count values from the `msg` dictionary. If there's a conflict (i.e., a record with the same page ID already exists), it updates the existing record by setting its count to the new value.",
             "params": [
               {
-                "name": "conn",
+                "name": "con",
                 "type_name": "sqlite3.Connection",
-                "description": "Used to execute SQL commands, specifically to create or modify tables and insert data into them."
+                "description": "Used to execute SQL commands and interact with a SQLite database."
               },
               {
                 "name": "msg",
-                "type_name": "Dict[str, Any]",
-                "description": "Expected to contain keys \"repo\", \"day_recorded\" and \"referrals\". The values associated with these keys are used to execute DuckDB operations."
+                "type_name": "Dict[str, Union[int, str]]",
+                "description": "Expected to contain at least two key-value pairs: 'page_id' which should be an integer and 'action_count' which could be any valid Python object."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "to_duckdb(conn, {\"repo\": \"test\", \"day_recorded\": 1643723400, \"referrals\": [{\"referrer\": \"google\", \"count\": 10, \"uniques\": 5}]})",
+              "code": "con = connect_to_database()\ninsert_data(con, {'page_id': 'abc', 'action_count': 10})\n",
               "description": ""
             },
-            "name": "to_duckdb",
+            "name": "insert_data",
             "location": {
-              "start": 27,
-              "insert": 28,
+              "start": 40,
+              "insert": 42,
               "offset": " ",
               "indent": 4,
               "comment": null
             },
             "item_type": "function",
-            "length": 31,
+            "length": 7,
             "docLength": null
           }
         ]
