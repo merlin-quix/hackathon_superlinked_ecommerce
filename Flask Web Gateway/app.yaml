@@ -6,10 +6,10 @@ variables:
     description: ''
     defaultValue: mdtoken
     required: false
-  - name: xx
+  - name: MOTHERDUCK_DATABASE
     inputType: FreeText
     description: ''
-    defaultValue: ''
+    defaultValue: my_db
     required: false
 dockerfile: build/dockerfile
 runEntryPoint: main.py
