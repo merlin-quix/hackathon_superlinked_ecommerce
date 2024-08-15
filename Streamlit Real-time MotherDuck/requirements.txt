@@ -4,4 +4,3 @@ python-dotenv
 duckdb
 bokeh==2.4.3
 pandas==1.3.4
-
