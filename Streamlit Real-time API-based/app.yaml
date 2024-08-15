@@ -1,11 +1,6 @@
 name: Streamlit Real-time API-based
 language: python
-variables:
-  - name: MOTHERDUCK_DATABASE
-    inputType: FreeText
-    description: ''
-    defaultValue: my_db
-    required: false
+variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: streamlit_file.py
