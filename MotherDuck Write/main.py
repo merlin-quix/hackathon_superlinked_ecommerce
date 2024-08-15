@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize the Quix Application with the connection configuration
-app = Application(consumer_group="count-consumer-v1e",
+app = Application(consumer_group="count-consumer-v1",
                   auto_offset_reset="earliest")
 
 input_topic = app.topic(os.getenv("input","processed_data")) # Define the input topic to consume from
