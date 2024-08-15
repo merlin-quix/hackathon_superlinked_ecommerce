@@ -652,23 +652,23 @@
     "path": "User Actions Generator/main.py",
     "content": {
       "structured": {
-        "description": "An application using QuixStreams that publishes data to a Kafka topic in a simulated manner. The application generates random records representing user interactions with a web page and sends these records to the topic at regular intervals. The data includes timestamp, user ID, page ID, and action type.",
+        "description": "An application that uses QuixStreams to publish random user interactions to a Kafka topic. The interactions include timestamped records with user and page IDs, as well as an action type (view, hover, scroll, or click). The data is published at irregular intervals using the `producer` object from the QuixStreams application, which connects to a Kafka broker.",
         "items": [
           {
-            "id": "d67e4089-5d14-e6ab-0d46-83e33ef3814a",
+            "id": "e47422a7-e302-f38a-9f46-bf961d87828e",
             "ancestors": [],
-            "description": "Publishes random records to a Kafka topic with producer. Each record contains timestamp, user_id, page_id and an action (view, hover, scroll or click) simulated by a random choice from a list. The records are published at a random interval between 0.5 to 1.5 seconds.",
+            "description": "Generates and publishes random user behavior data to a Kafka topic. It simulates user interactions (view, hover, scroll, click) on various pages by multiple users, producing JSON records with timestamp, user ID, page ID, and action type at regular intervals.",
             "params": [],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "if __name__ == \"__main__\":\n    main()\n",
-              "description": "\nThis code snippet demonstrates how the function main can be invoked, allowing it to run its operations."
+              "code": "if __name__ == \"__main__\":\n    main()",
+              "description": ""
             },
             "name": "main",
             "location": {
-              "start": 30,
-              "insert": 31,
+              "start": 21,
+              "insert": 22,
               "offset": " ",
               "indent": 4,
               "comment": null
