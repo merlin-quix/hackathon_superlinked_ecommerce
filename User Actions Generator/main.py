@@ -12,18 +12,9 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-### WARPSTREAM CONNECTION
-# Define your SASL configuration
-connection = ConnectionConfig(
-     bootstrap_servers=os.environ["bootstrap_server"],
-     security_protocol="SASL_SSL",
-     sasl_mechanism="PLAIN",  # or any other supported mechanism
-     sasl_username=os.environ["sasl_username"],
-     sasl_password=os.environ["sasl_password"]
- )
 
 # Initialize the Quix Application with the connection configuration
-app = Application(broker_address=connection)
+app = Application()
 topic = app.topic(os.getenv("raw_data_topic","raw_data"))
 # for more help using QuixStreams see docs: https://quix.io/docs/quix-streams/introduction.html
 
