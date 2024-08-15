@@ -646,5 +646,15 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "User Actions Generator/main.py",
+    "content": {
+      "structured": {
+        "description": "An application that reads data from a hardcoded dataset and publishes it to a Kafka topic using Quix Streams. The data is generated randomly in the form of JSON objects containing memory usage information for multiple hosts. The code creates a producer object, iterates over the data, converts each row to JSON, and then produces the data to the specified Kafka topic.",
+        "items": []
+      }
+    }
   }
 ]
