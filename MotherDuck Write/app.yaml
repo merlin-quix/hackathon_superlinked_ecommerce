@@ -21,6 +21,11 @@ variables:
     description: ''
     defaultValue: md-write-test
     required: false
+  - name: db_table_name
+    inputType: FreeText
+    description: ''
+    defaultValue: user-events
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
