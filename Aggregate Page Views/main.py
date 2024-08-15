@@ -6,18 +6,8 @@ from dotenv import load_dotenv
 # for local dev, load env vars from a .env file
 load_dotenv()
 
-# Define your SASL configuration
-connection = ConnectionConfig(
-     bootstrap_servers=os.environ["bootstrap_server"],
-     security_protocol="SASL_SSL",
-     sasl_mechanism="PLAIN",  # or any other supported mechanism
-     sasl_username=os.environ["sasl_username"],
-     sasl_password=os.environ["sasl_password"]
- )
-
 # Initialize the Quix Application with the connection configuration
 app = Application(consumer_group=os.getenv("consumer_group_name","default-consumer-group"),
-                  broker_address=connection,
                   auto_offset_reset="earliest")
 
 input_topic = app.topic(os.getenv("raw_data_topic","raw_data"))
