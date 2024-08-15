@@ -1,78 +1,57 @@
-from quixstreams import Application  # import the Quix Streams modules for interacting with Kafka:
-# (see https://quix.io/docs/quix-streams/v2-0-latest/api-reference/quixstreams.html for more details)
-
-# import additional modules as needed
-import random
+from quixstreams import Application
+from quixstreams.kafka.configuration import ConnectionConfig
 import os
+import random
+import time
 import json
-
-# for local dev, load env vars from a .env file
+import uuid
+import logging
 from dotenv import load_dotenv
+
 load_dotenv()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-app = Application.Quix(consumer_group="data_source", auto_create_topics=True)  # create an Application
+### WARPSTREAM CONNECTION
+# Define your SASL configuration
+connection = ConnectionConfig(
+     bootstrap_servers=os.environ["bootstrap_server"],
+     security_protocol="SASL_SSL",
+     sasl_mechanism="PLAIN",  # or any other supported mechanism
+     sasl_username=os.environ["sasl_username"],
+     sasl_password=os.environ["sasl_password"]
+ )
 
-# define the topic using the "output" environment variable
-topic_name = os.environ["output"]
-topic = app.topic(topic_name)
-
-
-# this function loads the file and sends each row to the publisher
-def get_data():
-    """
-    A function to generate data from a hardcoded dataset in an endless manner.
-    It returns a list of tuples with a message_key and rows
-    """
-
-    # define the hardcoded dataset
-    # this data is fake data representing used % of memory allocation over time
-    # there is one row of data every 1 to 2 seconds
-    data = [
-        {"m": "mem", "host": "host1", "used_percent": "64.56", "time": "1577836800000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "71.89", "time": "1577836801000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "63.27", "time": "1577836803000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "73.45", "time": "1577836804000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "62.98", "time": "1577836806000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "74.33", "time": "1577836808000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "65.21", "time": "1577836810000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "70.88", "time": "1577836812000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "64.61", "time": "1577836814000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "72.56", "time": "1577836816000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "63.77", "time": "1577836818000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "73.21", "time": "1577836820000000000"}
-    ]
-
-    # create a list of tuples with row_data
-    data_with_id = [(row_data) for row_data in data]
-
-    return data_with_id
-
+# Initialize the Quix Application with the connection configuration
+app = Application(broker_address=connection)
+topic = app.topic(os.getenv("raw_data_topic","raw_data"))
+# for more help using QuixStreams see docs: https://quix.io/docs/quix-streams/introduction.html
 
 def main():
-    """
-    Read data from the hardcoded dataset and publish it to Kafka
-    """
-
+    actions = ['view', 'hover', 'scroll', 'click']
+    num_users = 100
+    num_pages = 9
     # create a pre-configured Producer object.
     with app.get_producer() as producer:
-        # iterate over the data from the hardcoded dataset
-        data_with_id = get_data()
-        for row_data in data_with_id:
-
-            json_data = json.dumps(row_data)  # convert the row to JSON
+        while True:
+            current_time = int(time.time())
+            record = {
+                "timestamp": current_time,
+                "user_id": f"user_{random.randint(1, num_users)}",
+                "page_id": f"page_{random.randint(0, num_pages)}",
+                "action": random.choice(actions)
+            }
+            json_data = json.dumps(record)
 
             # publish the data to the topic
+            logger.info(f"Publishing row: {json_data}")
             producer.produce(
                 topic=topic.name,
-                key=row_data['host'],
+                key=str(uuid.uuid4()),
                 value=json_data,
             )
 
-            # for more help using QuixStreams see docs:
-            # https://quix.io/docs/quix-streams/introduction.html
-
-        print("All rows published")
-
+            time.sleep(random.uniform(0.5, 1.5))
 
 if __name__ == "__main__":
     try:
