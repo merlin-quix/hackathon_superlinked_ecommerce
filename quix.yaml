@@ -76,3 +76,4 @@ deployments:
 topics:
   - name: user-events
   - name: user-actions
+  - name: raw_data
