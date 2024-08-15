@@ -19,7 +19,7 @@ variables:
   - name: CONSUMER_GROUP_NAME
     inputType: FreeText
     description: ''
-    defaultValue: ''
+    defaultValue: md-write-test
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
