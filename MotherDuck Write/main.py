@@ -16,19 +16,26 @@ logger = logging.getLogger(__name__)
 
 user_events_table = "user_events"
 
+#      payload = {
+#           "user": user,
+#           "product": product,
+#           "event_type": event_type,
+#           "id": generate_random_event_id(),
+#           "created_at": current_time
+#       }
+
 def to_duckdb(conn, msg):
     """
-    Collects and stores statistics for a given repository by inserting referral
-    records into a DuckDB table, overwriting existing entries if necessary, and
-    logs events during the process. It also creates the table if it does not exist.
+    Collects statistics from a message, specifically referral records, and writes
+    them to a DuckDB database table. It checks if the table exists before creating
+    it, then inserts new records into the table with their respective values.
 
     Args:
-        conn (sqlite3.Connection): Used to establish a connection to a SQLite
-            database, providing access for executing SQL queries and storing data.
-        msg (Dict[str, Any]): Assumed to contain two key-value pairs: "repo" which
-            corresponds to the name of the source repository and "day_recorded"
-            which corresponds to the timestamp for recorded day, as well as a list
-            of referrals in the "referrals" key.
+        conn (sqlite3.Connection): Used to execute SQL commands, specifically to
+            create or modify tables and insert data into them.
+        msg (Dict[str, Any]): Expected to contain keys "repo", "day_recorded" and
+            "referrals". The values associated with these keys are used to execute
+            DuckDB operations.
 
     """
     try:
@@ -43,20 +50,17 @@ def to_duckdb(conn, msg):
 
             conn.execute(f'''
                 CREATE TABLE {user_events_table} (
-                    repo VARCHAR,
-                    referrer VARCHAR,
-                    count INTEGER,
-                    uniques INTEGER,
-                    day TIMESTAMP,
-                    UNIQUE(repo, referrer, day)
+                    user VARCHAR,
+                    product VARCHAR,
+                    event_type INTEGER,
+                    id INTEGER,
+                    created_at TIMESTAMP,
                 );
             ''')
 
         for record in msg["referrals"]:
             conn.execute(f'''
-                INSERT INTO {user_events_table} (repo, referrer, count, uniques, day) VALUES (?, ?, ?, ?, ?)
-                ON CONFLICT (repo, referrer, day) # Need to overwrite rather than insert if same combo of date-repo-referrer already exists
-                DO UPDATE SET count = excluded.count, uniques = excluded.uniques;
+                INSERT INTO {user_events_table} (user, product, event_type, uniques, day) VALUES (?, ?, ?, ?, ?)
                 ''', (sourcerepo, record['referrer'], record['count'], record['uniques'], reportedtime))
             logger.info(f"Wrote referral record: {record}")
 
