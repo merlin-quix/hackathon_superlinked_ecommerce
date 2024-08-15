@@ -10,6 +10,11 @@ variables:
     description: ''
     defaultValue: mdtoken
     required: false
+  - name: MOTHERDUCK_DATABASE
+    inputType: FreeText
+    description: ''
+    defaultValue: my_db
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: streamlit_file.py
