@@ -652,8 +652,32 @@
     "path": "User Actions Generator/main.py",
     "content": {
       "structured": {
-        "description": "An application that reads data from a hardcoded dataset and publishes it to a Kafka topic using Quix Streams. The data is generated randomly in the form of JSON objects containing memory usage information for multiple hosts. The code creates a producer object, iterates over the data, converts each row to JSON, and then produces the data to the specified Kafka topic.",
-        "items": []
+        "description": "An application using QuixStreams that publishes data to a Kafka topic in a simulated manner. The application generates random records representing user interactions with a web page and sends these records to the topic at regular intervals. The data includes timestamp, user ID, page ID, and action type.",
+        "items": [
+          {
+            "id": "d67e4089-5d14-e6ab-0d46-83e33ef3814a",
+            "ancestors": [],
+            "description": "Publishes random records to a Kafka topic with producer. Each record contains timestamp, user_id, page_id and an action (view, hover, scroll or click) simulated by a random choice from a list. The records are published at a random interval between 0.5 to 1.5 seconds.",
+            "params": [],
+            "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "if __name__ == \"__main__\":\n    main()\n",
+              "description": "\nThis code snippet demonstrates how the function main can be invoked, allowing it to run its operations."
+            },
+            "name": "main",
+            "location": {
+              "start": 30,
+              "insert": 31,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 23,
+            "docLength": null
+          }
+        ]
       }
     }
   }
