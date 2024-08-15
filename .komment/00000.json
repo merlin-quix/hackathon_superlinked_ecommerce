@@ -652,18 +652,18 @@
     "path": "User Actions Generator/main.py",
     "content": {
       "structured": {
-        "description": "An application using QuixStreams library and publishes data to a Kafka topic. It generates random user interactions (view, hover, scroll, click) on multiple pages for 100 users over a specified period of time. The data is published in JSON format with a timestamp, user ID, page ID, and action.",
+        "description": "An application that publishes events to a Kafka topic using Quix Streams. It creates a producer object and uses it to produce records with user actions (view, hover, scroll, click) and their corresponding timestamps, page IDs, and user IDs. The records are then published to the specified Kafka topic at random intervals.",
         "items": [
           {
-            "id": "4a73db8b-e5c5-9d94-b049-bbcdec350c05",
+            "id": "777fe04c-717f-df9d-834f-10dfa26b9e90",
             "ancestors": [],
-            "description": "Publishes a stream of JSON records to a Kafka topic. Each record represents user interaction data (timestamp, user ID, page ID, and action) generated randomly and at varying intervals within a specified range. The function runs indefinitely until terminated.",
+            "description": "Generates random user and page data, converts it to JSON, publishes it to a topic using an Apache Kafka producer, and logs the publication process. The frequency of publications is random between 0.1 and 1 second.",
             "params": [],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "if __name__ == \"__main__\":\n    main()\n",
-              "description": "\n\nThis code assumes that there's a variable 'app' with a method get_producer defined in it, and a variable 'topic' with a name attribute."
+              "code": "if __name__ == '__main__':\n    main()\n",
+              "description": ""
             },
             "name": "main",
             "location": {

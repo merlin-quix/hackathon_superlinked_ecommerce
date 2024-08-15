@@ -20,10 +20,9 @@ topic = app.topic(os.getenv("raw_data_topic","raw_data"))
 
 def main():
     """
-    Publishes a stream of JSON records to a Kafka topic. Each record represents
-    user interaction data (timestamp, user ID, page ID, and action) generated
-    randomly and at varying intervals within a specified range. The function runs
-    indefinitely until terminated.
+    Generates random user and page data, converts it to JSON, publishes it to a
+    topic using an Apache Kafka producer, and logs the publication process. The
+    frequency of publications is random between 0.1 and 1 second.
 
     """
     actions = ['view', 'hover', 'scroll', 'click']
@@ -49,7 +48,7 @@ def main():
                 value=json_data,
             )
 
-            time.sleep(random.uniform(0.5, 10.5))
+            time.sleep(random.uniform(0.1, 1))
 
 if __name__ == "__main__":
     try:
