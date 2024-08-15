@@ -1,11 +1,6 @@
 name: Flask Web Gateway
 language: python
 variables:
-  - name: output
-    inputType: OutputTopic
-    description: Name of the output topic to write into
-    defaultValue: csv-data
-    required: true
   - name: MOTHERDUCK_TOKEN
     inputType: Secret
     description: ''
