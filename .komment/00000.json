@@ -652,18 +652,18 @@
     "path": "User Actions Generator/main.py",
     "content": {
       "structured": {
-        "description": "An application that uses QuixStreams to publish random user interactions to a Kafka topic. The interactions include timestamped records with user and page IDs, as well as an action type (view, hover, scroll, or click). The data is published at irregular intervals using the `producer` object from the QuixStreams application, which connects to a Kafka broker.",
+        "description": "An application using QuixStreams library and publishes data to a Kafka topic. It generates random user interactions (view, hover, scroll, click) on multiple pages for 100 users over a specified period of time. The data is published in JSON format with a timestamp, user ID, page ID, and action.",
         "items": [
           {
-            "id": "e47422a7-e302-f38a-9f46-bf961d87828e",
+            "id": "4a73db8b-e5c5-9d94-b049-bbcdec350c05",
             "ancestors": [],
-            "description": "Generates and publishes random user behavior data to a Kafka topic. It simulates user interactions (view, hover, scroll, click) on various pages by multiple users, producing JSON records with timestamp, user ID, page ID, and action type at regular intervals.",
+            "description": "Publishes a stream of JSON records to a Kafka topic. Each record represents user interaction data (timestamp, user ID, page ID, and action) generated randomly and at varying intervals within a specified range. The function runs indefinitely until terminated.",
             "params": [],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "if __name__ == \"__main__\":\n    main()",
-              "description": ""
+              "code": "if __name__ == \"__main__\":\n    main()\n",
+              "description": "\n\nThis code assumes that there's a variable 'app' with a method get_producer defined in it, and a variable 'topic' with a name attribute."
             },
             "name": "main",
             "location": {
