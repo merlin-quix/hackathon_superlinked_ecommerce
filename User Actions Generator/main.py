@@ -42,7 +42,7 @@ def main():
                 value=json_data,
             )
 
-            time.sleep(random.uniform(0.5, 1.5))
+            time.sleep(random.uniform(0.5, 10.5))
 
 if __name__ == "__main__":
     try:
