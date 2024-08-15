@@ -680,5 +680,68 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "Streamlit Real-time MotherDuck/main.py",
+    "content": {
+      "structured": {
+        "description": "A real-time dashboard using Streamlit and Bokeh that retrieves data from a MotherDuck database through a service token. The dashboard displays a dynamically updating bar chart showing page view counts and a table underneath, both of which are refreshed periodically. The data is fetched using a cached function that queries the database for page IDs and their corresponding counts, then caches the result to improve performance.",
+        "items": [
+          {
+            "id": "47f89b71-0016-03bd-7447-e4cb314b8b83",
+            "ancestors": [],
+            "description": "Executes a SQL query on a database connection (`conn`) and returns the result as a pandas DataFrame (`df`). The query selects `page_id` and `count` from a table named by `table_name`, ordered by `page_id` in ascending order, and prints the execution time.",
+            "params": [],
+            "returns": {
+              "type_name": "pandasDataFrame",
+              "description": "A data structure that contains tabular data."
+            },
+            "usage": {
+              "language": "python",
+              "code": "data = get_data()\n",
+              "description": "\nNote: The above code does not include any import statement for datetime and table_name variables as it seems to be already defined in the context of the program."
+            },
+            "name": "get_data",
+            "location": {
+              "start": 23,
+              "insert": 24,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 5,
+            "docLength": null
+          },
+          {
+            "id": "191acc70-f911-6ab3-274a-191f5b58d92f",
+            "ancestors": [],
+            "description": "Retrieves cached data by calling `get_data`. It utilizes the `@st.cache_data` decorator, which caches the output of the decorated function for subsequent calls with the same arguments. This approach enhances performance and reduces computational overhead by reusing cached results.",
+            "params": [],
+            "returns": {
+              "type_name": "Any",
+              "description": "Retrieved by calling the function `get_data`. The return value may be cached to speed up subsequent calls."
+            },
+            "usage": {
+              "language": "python",
+              "code": "result = get_cached_data()\n# Use result as needed\n",
+              "description": ""
+            },
+            "name": "get_cached_data",
+            "location": {
+              "start": 30,
+              "insert": 32,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]

@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-15T17:59:26.189Z",
+    "updated_at": "2024-08-15T18:55:25.402Z",
     "created_at": "2024-08-05T13:47:40.393Z",
     "pipelines": [
       "f0880a40-d3c0-4524-a003-b3a1225271b7",
@@ -37,7 +37,8 @@
       "8e3c5128-13ea-4d1e-91b6-7ce1754403fe",
       "fa24b91d-791c-415b-9aac-af2dab89255b",
       "a1c03ecf-abb5-4ca5-b985-9d7f553ba63a",
-      "823742d3-5cbf-48aa-996f-3560ea7d6ff2"
+      "823742d3-5cbf-48aa-996f-3560ea7d6ff2",
+      "8c91587a-4ae9-43cf-86f3-b9ab1f10d398"
     ]
   },
   "lookup": [
@@ -50,7 +51,8 @@
       "Flask Web Gateway/main.py",
       "Flask Web Gateway/setup_logging.py",
       "MotherDuck Write/main.py",
-      "User Actions Generator/main.py"
+      "User Actions Generator/main.py",
+      "Streamlit Real-time MotherDuck/main.py"
     ]
   ]
 }
