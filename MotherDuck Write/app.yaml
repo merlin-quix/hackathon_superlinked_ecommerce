@@ -24,7 +24,7 @@ variables:
   - name: db_table_name
     inputType: FreeText
     description: ''
-    defaultValue: user-events
+    defaultValue: user_events
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
