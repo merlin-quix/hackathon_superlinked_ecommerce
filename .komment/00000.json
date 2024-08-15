@@ -533,32 +533,32 @@
     "path": "Flask Web Gateway/main.py",
     "content": {
       "structured": {
-        "description": "A RESTful API using Flask that consumes JSON data from POST requests and produces it to a Kafka topic using QuixStreams. It also sets up logging with a custom logger instance. The API is served by Waitress and can be accessed at localhost:80.",
+        "description": "A Flask web application that connects to a MotherDuck database using a service token and retrieves user events from the database. The application listens on port 80 and responds to GET requests at the '/events' endpoint.",
         "items": [
           {
-            "id": "f2f9871b-c621-8f94-4845-d12995990c7f",
+            "id": "fb35cd87-6f56-71a7-934f-934b456123fe",
             "ancestors": [],
-            "description": "Handles POST requests to `/data/`. It extracts JSON data from the request, logs a message and sends the data to a Kafka topic using `producer.produce`, then returns a successful response with CORS enabled.",
+            "description": "Retrieves a list of user events from a database, sorts them by page ID in ascending order, and returns the result as JSON data.",
             "params": [],
             "returns": {
-              "type_name": "Response",
-              "description": "200 status code, allowing any origin to access this resource via CORS headers."
+              "type_name": "List[Dict]",
+              "description": "A list of dictionaries where each dictionary represents an event, and the keys of these dictionaries are column names from the user_events table."
             },
             "usage": {
               "language": "python",
-              "code": "requests.post(\"http://localhost:5000/data/\", json={\"key\": \"value\", \"sessionId\": \"12345\"})",
+              "code": "response = requests.get('http://localhost:5000/events')\nevents_list = response.json()\nfor event in events_list:\n    print(event)",
               "description": ""
             },
-            "name": "post_data",
+            "name": "get_user_events",
             "location": {
-              "start": 27,
-              "insert": 30,
+              "start": 23,
+              "insert": 25,
               "offset": " ",
               "indent": 4,
               "comment": null
             },
             "item_type": "function",
-            "length": 15,
+            "length": 11,
             "docLength": null
           }
         ]

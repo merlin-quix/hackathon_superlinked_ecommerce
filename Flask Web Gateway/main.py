@@ -1,55 +1,48 @@
 import os
-import datetime
-import json
-
-from flask import Flask, request, Response
+from flask import Flask, jsonify
 from waitress import serve
+import duckdb
 
 from setup_logging import get_logger
-
-from quixstreams.platforms.quix import QuixKafkaConfigsBuilder
-from quixstreams.kafka import Producer
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-cfg_builder = QuixKafkaConfigsBuilder()
-cfgs, topics, _ = cfg_builder.get_confluent_client_configs([os.environ["output"]])
-producer = Producer(cfgs.pop("bootstrap.servers"), extra_config=cfgs)
-
-
 logger = get_logger()
 
 app = Flask(__name__)
 
+# Replace with your MotherDuck connection string
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
-@app.route("/data/", methods=['POST'])
-def post_data():
-    
+# initiate the MotherDuck connection through a service token through
+conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
+
+@app.route('/events', methods=['GET'])
+def get_user_events():
     """
-    Handles POST requests to `/data/`. It extracts JSON data from the request,
-    logs a message and sends the data to a Kafka topic using `producer.produce`,
-    then returns a successful response with CORS enabled.
+    Retrieves a list of user events from a database, sorts them by page ID in
+    ascending order, and returns the result as JSON data.
 
     Returns:
-        Response: 200 status code, allowing any origin to access this resource via
-        CORS headers.
+        List[Dict]: A list of dictionaries where each dictionary represents an
+        event, and the keys of these dictionaries are column names from the
+        user_events table.
 
     """
-    data = request.json
+    query = "SELECT * FROM user_events ORDER BY page_id ASC"
 
-    print(data)
+    logger.info(f"Running query: {query}")
 
-    logger.info(f"{str(datetime.datetime.utcnow())} posted.")
-    
-    producer.produce(topics[0], json.dumps(data), data["sessionId"])
+    # Execute the query
+    results = conn.execute(query).fetchdf()
 
-    response = Response(status=200)
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # Convert the result to a list of dictionaries
+    results_list = results.to_dict(orient='records')
 
-    return response
-
+    return jsonify(results_list)
 
 if __name__ == '__main__':
     serve(app, host="0.0.0.0", port=80)
