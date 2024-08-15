@@ -533,26 +533,26 @@
     "path": "Flask Web Gateway/main.py",
     "content": {
       "structured": {
-        "description": "A web application using Flask that interacts with MotherDuck, a database system. The application establishes a connection to MotherDuck and executes a SQL query to retrieve user events, which is then converted to a JSON response.",
+        "description": "A web application using Flask and Waitress that connects to a MotherDuck database using DuckDB. It retrieves user events from the database, converts the results to a JSON format, and serves it through an HTTP GET request on the /events endpoint. The application also logs queries for debugging purposes.",
         "items": [
           {
-            "id": "16cbc3e4-8abb-7596-7248-e7918ad5ee2f",
+            "id": "f751f8a7-41b4-3ead-244c-f02b60c8d3a6",
             "ancestors": [],
-            "description": "Retrieves a list of user events from a database table named `user_events`, sorts them by `page_id`, and returns the results as JSON data. It logs the executed query for debugging purposes.",
+            "description": "Retrieves a list of user events from a database table, ordered by page ID in ascending order, and returns the results as JSON data.",
             "params": [],
             "returns": {
               "type_name": "List[Dict]",
-              "description": "A list of dictionaries, where each dictionary represents an event returned from the database query and ordered by page_id in ascending order."
+              "description": "A list of dictionaries, where each dictionary represents an event returned from the query result and its corresponding columns from the database."
             },
             "usage": {
               "language": "python",
-              "code": "response = get_user_events()\nprint(response.json())",
-              "description": ""
+              "code": "response = requests.get('http://localhost:5000/events')\ndata = response.json()\n",
+              "description": "\nNote that in a real-world scenario, you would replace 'http://localhost:5000/events' with the actual URL of your application."
             },
             "name": "get_user_events",
             "location": {
-              "start": 22,
-              "insert": 24,
+              "start": 23,
+              "insert": 25,
               "offset": " ",
               "indent": 4,
               "comment": null

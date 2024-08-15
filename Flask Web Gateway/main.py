@@ -2,34 +2,34 @@ import os
 from flask import Flask, jsonify
 from waitress import serve
 import duckdb
-
-from setup_logging import get_logger
+import logging
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-logger = get_logger()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
 # Replace with your MotherDuck connection string
-connection_string = os.environ["MOTHERDUCK_CONNECTION_STRING"]
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
 # Establish a connection to MotherDuck
-conn = duckdb.connect(connection_string)
+conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
 @app.route('/events', methods=['GET'])
 def get_user_events():
     """
-    Retrieves a list of user events from a database table named `user_events`,
-    sorts them by `page_id`, and returns the results as JSON data. It logs the
-    executed query for debugging purposes.
+    Retrieves a list of user events from a database table, ordered by page ID in
+    ascending order, and returns the results as JSON data.
 
     Returns:
         List[Dict]: A list of dictionaries, where each dictionary represents an
-        event returned from the database query and ordered by page_id in ascending
-        order.
+        event returned from the query result and its corresponding columns from
+        the database.
 
     """
     query = "SELECT * FROM user_events ORDER BY page_id ASC"
