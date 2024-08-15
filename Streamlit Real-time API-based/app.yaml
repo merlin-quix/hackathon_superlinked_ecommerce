@@ -1,0 +1,16 @@
+name: Streamlit Real-time API-based
+language: python
+variables:
+  - name: MOTHERDUCK_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: mdtoken
+    required: false
+  - name: MOTHERDUCK_DATABASE
+    inputType: FreeText
+    description: ''
+    defaultValue: my_db
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: streamlit_file.py
