@@ -1,117 +1,102 @@
-import threading
 import streamlit as st
+import duckdb
 import time
-import threading
-from data_queue import DataQueue
-from data_consumer import DataConsumer
+import os
+import pandas as pd
+import time
+from datetime import datetime
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, Range1d
+from bokeh.models.tools import HoverTool
+from bokeh.embed import components
+table_name = "user_events"
 
-st.set_page_config(
-    page_title="Streamlit Dashboard",
-    page_icon="favicon.png",
-    layout="wide",
-)
+os.environ["MOTHERDUCK_TOKEN"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoibWVybGluLnF1aXguaW8iLCJlbWFpbCI6Im1lcmxpbkBxdWl4LmlvIiwidXNlcklkIjoiMGMyZTVjMDctMGFmNi00MTE3LThiZWItYTc2NjczZmQzMmI3IiwiaWF0IjoxNzA1NDAzMzY0LCJleHAiOjE3MzY5NjA5NjR9.4chhWyjidgWCHRX4YPwDWk2ONK5wSO1cDukKjcB8i44"
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
 
-# Basic changes to the default theme can be done via the .streamlit/config.toml file.
-# For custom css update the style.css file 
-with open("style.css") as f:
-    st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
+os.environ["MOTHERDUCK_DATABASE"] = "my_db"
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
-st.header("Streamlit Dashboard")
+# initiate the MotherDuck connection through a service token through
+conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
-# PARAMETERS SECTION
-# Define a list of parameters to show in select widgets.
-AVAILABLE_PARAMS = []
+table_name = "user_events"
 
-# Create a placeholder for the loading spinner
-loading_placeholder = st.empty()
+## Function to get data from MotherDuck
+def get_data():
+    print(f"[{datetime.now()}] Running query...")
+    query = f"SELECT page_id, count FROM {table_name} ORDER BY page_id ASC"
+    df = conn.execute(query).fetchdf()
+    return df
 
-placeholder_col1, placeholder_col2 = st.columns(2)
-placeholder_raw = None
-parameter1 = None
-parameter2 = None
+# Function to get data and cache it
+@st.cache_data
+def get_cached_data():
+    return get_data()
 
-def build_dashboard_layout():
-    global placeholder_col1, placeholder_col2, placeholder_raw, parameter1, parameter2
+# Streamlit UI
+st.title("Real-time Dashboard Example Using Streamlit and Quix")
+st.markdown("This dasboard reads from a table in MotherDuck which is being continuously updated by a sink process in Quix Cloud. It then displays a dynamically updating Bokeh chart and table underneath.")
+st.markdown("In Quix Cloud, we are:\n * Generating synthetic user logs\n * Streaming the data to kafka\n * Reading from Kafka and aggregating the actions per page\n * Sinking the page view counts (which are continuously updating) to MotherDuck\n\n ")
+st.markdown("What users could learn: How to read from a real-time source and apply some kind of transformation to the data before bringing it into Streamlit (using only Python)")
 
-    # Create two columns for the select boxes and their headers
-    header_col1, header_col2 = st.columns(2)
+# Placeholder for the bar chart and table
+chart_placeholder = st.empty()
+table_placeholder = st.empty()
 
-    with header_col1:
-        st.markdown("### Chart 1 Title")
-        parameter1 = st.selectbox(
-            "Select Parameter 1",
-            options=AVAILABLE_PARAMS,
-            index=0,
-            key="parameter1_select"
-        )
+# Placeholder for countdown text
+countdown_placeholder = st.empty()
 
-    with header_col2:
-        st.markdown("### Chart 2 Title")
-        parameter2 = st.selectbox(
-            "Select Parameter 2",
-            options=AVAILABLE_PARAMS,
-            index=1,
-            key="parameter2_select"
-        )
-
-    # Create two columns for the charts
-    placeholder_col1, placeholder_col2 = st.columns(2)
-
-    # Initialize placeholders for the charts
-    placeholder_col1 = placeholder_col1.empty()  # Placeholder for the first chart
-    placeholder_col2 = placeholder_col2.empty()  # Placeholder for the second chart
-
-    # Placeholder for the raw data table below the charts
-    placeholder_raw = st.empty()
-
-
-@st.cache_resource
-def queue_init():
-    queue = DataQueue()
-    queue.start()
-    return queue
-
-@st.cache_resource
-def data_consumer_init(_queue: DataQueue):
-    dc = DataConsumer(_queue)
-    thread = threading.Thread(target=dc.start)
-    thread.start()
-    return dc
-
-# Unique client connection id generated per browser tab.
-conid = threading.current_thread().ident
-
-# Blocking queue that exposes Quix data to Streamlit components.
-queue = queue_init()
-
-# Data consumer that generates the view model from Quix data for the Streamlit components.
-data_consumer = data_consumer_init(queue)
-
-# Event loop to update streamlit components. Try not to copy/modify the dataframes within
-# this loop.
+# Main loop
 while True:
+    # Get the data
+    df = get_cached_data()
 
-    # Event loop to update streamlit components. Try not to copy/modify the dataframes within
-    # this loop.
-    if not AVAILABLE_PARAMS:
-        # Show loading spinner while waiting for AVAILABLE_PARAMS to be populated
-        with loading_placeholder:
-            with st.spinner('Waiting for parameters...'):
-                while not AVAILABLE_PARAMS:
-                    AVAILABLE_PARAMS = data_consumer.get_available_params()
-                    time.sleep(0.1)  # Sleep briefly to avoid busy waiting
+    # Check that data is being retrieved and passed correctly
+    if df.empty:
+        st.error("No data found. Please check your data source.")
+        break
 
-    # Once AVAILABLE_PARAMS is populated, clear the spinner and build the dashboard layout
-    if AVAILABLE_PARAMS and not parameter1 and not parameter2:
-        build_dashboard_layout()
+    # Calculate dynamic min and max scales
+    min_count = df['count'].min()
+    max_count = df['count'].max()
+    min_scale = min_count * 0.99
+    max_scale = max_count * 1.01
 
-    # If parameters are selected, display the charts
-    if parameter1 and parameter2:
-        df = queue.get(conid)  # Make sure this is non-blocking or handled in a separate thread
-        with placeholder_col1:
-            st.line_chart(df, x="datetime", y=[parameter1], height=300)
-        with placeholder_col2:
-            st.line_chart(df, x="datetime", y=[parameter2], height=300)
-        with placeholder_raw:
-            st.markdown("### Raw Data View")
-            st.dataframe(df)
+    # Prepare Bokeh data source
+    source = ColumnDataSource(df)
+
+    # Create a Bokeh figure without specifying height
+    p = figure(x_range=df['page_id'], height=400, title="Page Counts",
+               y_range=Range1d(start=min_scale, end=max_scale))
+
+    # Add a hover tool
+    hover = HoverTool()
+    hover.tooltips = [("Page ID", "@page_id"), ("Count", "@count")]
+    p.add_tools(hover)
+
+    # Add bars to the figure
+    p.vbar(x='page_id', top='count', width=0.9, source=source)
+
+    # Style the chart
+    p.xgrid.grid_line_color = None
+    p.yaxis.axis_label = "Count"
+    p.xaxis.axis_label = "Page ID"
+    p.xaxis.major_label_orientation = "vertical"  # Vertical label orientation
+
+    # Display the Bokeh chart in Streamlit using st.bokeh_chart
+    chart_placeholder.bokeh_chart(p, use_container_width=True)
+
+    # Display the dataframe as a table
+    table_placeholder.table(df)
+
+    # Countdown
+    for i in range(1, 0, -1):
+        countdown_placeholder.text(f"Refreshing in {i} seconds...")
+        time.sleep(1)
+
+    # Clear the countdown text
+    countdown_placeholder.empty()
+
+    # Clear the cache to fetch new data
+    get_cached_data.clear()
