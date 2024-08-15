@@ -607,40 +607,40 @@
     "path": "MotherDuck Write/main.py",
     "content": {
       "structured": {
-        "description": "An application that processes data from a Kafka topic using QuixStreams and writes it into a DuckDB database. The data is processed in real-time, updating tables with statistics on referrals, page views, daily views, and total views. The code also handles conflicts when inserting new data to avoid duplicate entries.",
+        "description": "An application using QuixStreams and writes data from an input stream to a DuckDB database. The data is processed in real-time, where each record represents a referral event for a specific repository. It initializes a connection to the MotherDuck service with a token and loads environment variables.",
         "items": [
           {
-            "id": "43c38f6c-eb28-0a82-094c-1b9500957a5c",
+            "id": "9ff26b84-02e3-c896-5845-d04656b00c9e",
             "ancestors": [],
-            "description": "Collects statistics from input messages and writes them to a DuckDB database, specifically to tables for referral records, page views, daily view counts, and total view aggregates, handling potential conflicts with existing data.",
+            "description": "Collects and stores statistics for a given repository by inserting referral records into a DuckDB table, overwriting existing entries if necessary, and logs events during the process. It also creates the table if it does not exist.",
             "params": [
               {
                 "name": "conn",
-                "type_name": "DuckDB connection object | AnyOtherDatabaseConnectionObject",
-                "description": "Used to execute SQL queries on a database."
+                "type_name": "sqlite3.Connection",
+                "description": "Used to establish a connection to a SQLite database, providing access for executing SQL queries and storing data."
               },
               {
                 "name": "msg",
                 "type_name": "Dict[str, Any]",
-                "description": "Assumed to contain four keys: \"repo\", \"day_recorded\", \"referrals\", and \"views\". The values associated with these keys are used to populate tables in the DuckDB database."
+                "description": "Assumed to contain two key-value pairs: \"repo\" which corresponds to the name of the source repository and \"day_recorded\" which corresponds to the timestamp for recorded day, as well as a list of referrals in the \"referrals\" key."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "conn = None  # Assuming you have created a DuckDB connection object earlier\nmsg = {\n    \"repo\": \"my_repo\",\n    \"day_recorded\": datetime.date(2022, 1, 1),\n    \"referrals\": [{\"referrer\": \"user1\", \"count\": 10, \"uniques\": 5}],\n    \"pageviews\": [{\"path\": \"/home\", \"title\": \"Home page\", \"count\": 20, \"uniques\": 15}],\n    \"views\": {\"views\": [{\"timestamp\": datetime.date(2022, 1, 1), \"count\": 30, \"uniques\": 25}]}\n}\nto_duckdb(conn, msg)",
+              "code": "conn = ...  # establish database connection\nmsg = {\"repo\": \"my_repo\", \"day_recorded\": \"2022-01-01\", \n       \"referrals\": [{\"referrer\": \"referrer1\", \"count\": 10, \"uniques\": 5}, \n                     {\"referrer\": \"referrer2\", \"count\": 20, \"uniques\": 10}]}\nto_duckdb(conn, msg)\n",
               "description": ""
             },
             "name": "to_duckdb",
             "location": {
-              "start": 22,
-              "insert": 23,
+              "start": 19,
+              "insert": 20,
               "offset": " ",
               "indent": 4,
               "comment": null
             },
             "item_type": "function",
-            "length": 98,
+            "length": 34,
             "docLength": null
           }
         ]
