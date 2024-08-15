@@ -14,7 +14,7 @@ variables:
   - name: MOTHERDUCK_DATABASE
     inputType: FreeText
     description: ''
-    defaultValue: ''
+    defaultValue: my_db
     required: false
   - name: CONSUMER_GROUP_NAME
     inputType: FreeText
