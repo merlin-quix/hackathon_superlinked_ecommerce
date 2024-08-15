@@ -14,10 +14,11 @@ logger = get_logger()
 app = Flask(__name__)
 
 # Replace with your MotherDuck connection string
-connection_string = os.environ["MOTHERDUCK_CONNECTION_STRING"]
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
 # Establish a connection to MotherDuck
-conn = duckdb.connect(connection_string)
+conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
 @app.route('/events', methods=['GET'])
 def get_user_events():
