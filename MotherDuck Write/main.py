@@ -17,7 +17,10 @@ input_topic = app.topic(os.getenv("input","processed_data")) # Define the input 
 tablename = os.getenv("db_table_name","page_actions") # The name of the table we want to write to
 sdf = app.dataframe(input_topic) # Turn the data from the input topic into a streaming dataframe
 
-con = duckdb.connect("stats.db") # Connect to a persisted DuckDB database on the filesystem
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
+# initiate the MotherDuck connection through a service token through
+con = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
 try:
     # Do a basic check if the target table exists and create it if not
