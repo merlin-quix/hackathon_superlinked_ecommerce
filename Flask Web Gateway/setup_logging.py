@@ -4,13 +4,15 @@ import logging
 def get_logger():
     # Set up logging
     """
-    Creates a logger named 'waitress' with logging level set to INFO, prevents
-    propagation to higher loggers, and adds a console handler with a custom formatter
-    for formatting log messages before sending them to the stream.
+    Initializes a logger named 'waitress' with a level of INFO, and configures it
+    to log messages to the console with a specified format. The propagate flag is
+    set to False to prevent logging messages from being passed on to higher-level
+    handlers.
 
     Returns:
-        loggingLogger: A logger object that can be used for logging messages with
-        different levels (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+        loggingLogger: An instance of the Logger class from the Python standard
+        library module `logging`. This object represents a single thread's execution
+        of the logging module, and it can be used to log messages.
 
     """
     logger = logging.getLogger('waitress')

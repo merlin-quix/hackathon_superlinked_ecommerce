@@ -28,14 +28,13 @@ app = Flask(__name__)
 def post_data():
     
     """
-    Handles HTTP POST requests to `/data/`, receives JSON data, logs the request
-    time and session ID, produces a message using a producer, and returns a
-    successful response with CORS enabled.
+    Handles POST requests to `/data/`. It extracts JSON data from the request,
+    logs a message and sends the data to a Kafka topic using `producer.produce`,
+    then returns a successful response with CORS enabled.
 
     Returns:
-        Response: 200 and has a header 'Access-Control-Allow-Origin' set to '*',
-        indicating that the request was successful and CORS policy allows cross-origin
-        resource sharing.
+        Response: 200 status code, allowing any origin to access this resource via
+        CORS headers.
 
     """
     data = request.json

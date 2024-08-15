@@ -533,20 +533,20 @@
     "path": "Flask Web Gateway/main.py",
     "content": {
       "structured": {
-        "description": "A Flask web application that handles POST requests at the \"/data/\" endpoint. It uses the Quix platform to produce data to Kafka topics. The data is sent in JSON format and includes a session ID. The application logs the posting time and sends an HTTP response with a 200 status code.",
+        "description": "A RESTful API using Flask that consumes JSON data from POST requests and produces it to a Kafka topic using QuixStreams. It also sets up logging with a custom logger instance. The API is served by Waitress and can be accessed at localhost:80.",
         "items": [
           {
-            "id": "2ad0f755-8036-5182-a645-f8eb6093ecc9",
+            "id": "f2f9871b-c621-8f94-4845-d12995990c7f",
             "ancestors": [],
-            "description": "Handles HTTP POST requests to `/data/`, receives JSON data, logs the request time and session ID, produces a message using a producer, and returns a successful response with CORS enabled.",
+            "description": "Handles POST requests to `/data/`. It extracts JSON data from the request, logs a message and sends the data to a Kafka topic using `producer.produce`, then returns a successful response with CORS enabled.",
             "params": [],
             "returns": {
               "type_name": "Response",
-              "description": "200 and has a header 'Access-Control-Allow-Origin' set to '*', indicating that the request was successful and CORS policy allows cross-origin resource sharing."
+              "description": "200 status code, allowing any origin to access this resource via CORS headers."
             },
             "usage": {
               "language": "python",
-              "code": "import requests\nrequests.post(\"http://localhost:5000/data/\", json={\"sessionId\": \"1234\", \"data\": {\"key\": \"value\"}})\n",
+              "code": "requests.post(\"http://localhost:5000/data/\", json={\"key\": \"value\", \"sessionId\": \"12345\"})",
               "description": ""
             },
             "name": "post_data",
@@ -570,20 +570,20 @@
     "path": "Flask Web Gateway/setup_logging.py",
     "content": {
       "structured": {
-        "description": "A logger using the logging module and sets up a console handler for logging messages. The logger is configured with an INFO level and a custom formatter that includes timestamp, logger name, log level and message. A console handler is added to the logger to handle log messages, which are then propagated to the standard output stream.",
+        "description": "A function that initializes and returns a custom logger named 'waitress' using Python's built-in logging package. The logger is set to log at the INFO level, with messages propagated only to this logger. A console handler is also created and added to the logger, formatting each log message as a timestamp, logger name, log level, and message.",
         "items": [
           {
-            "id": "0c5b3940-3e72-9d9b-2d49-5af6b89a3230",
+            "id": "a2b1e50c-49b8-7799-d14d-f910951cbdbb",
             "ancestors": [],
-            "description": "Creates a logger named 'waitress' with logging level set to INFO, prevents propagation to higher loggers, and adds a console handler with a custom formatter for formatting log messages before sending them to the stream.",
+            "description": "Initializes a logger named 'waitress' with a level of INFO, and configures it to log messages to the console with a specified format. The propagate flag is set to False to prevent logging messages from being passed on to higher-level handlers.",
             "params": [],
             "returns": {
               "type_name": "loggingLogger",
-              "description": "A logger object that can be used for logging messages with different levels (DEBUG, INFO, WARNING, ERROR, CRITICAL)."
+              "description": "An instance of the Logger class from the Python standard library module `logging`. This object represents a single thread's execution of the logging module, and it can be used to log messages."
             },
             "usage": {
               "language": "python",
-              "code": "logger = get_logger()\nlogger.info(\"This is an informational message\")\nlogger.warning(\"This is a warning message\")",
+              "code": "logger = get_logger()\nlogger.info(\"This message will be printed in the console\")",
               "description": ""
             },
             "name": "get_logger",
