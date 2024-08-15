@@ -9,7 +9,7 @@ variables:
   - name: MOTHERDUCK_TOKEN
     inputType: Secret
     description: ''
-    defaultValue: ''
+    defaultValue: mdtoken
     required: false
   - name: MOTHERDUCK_DATABASE
     inputType: FreeText
