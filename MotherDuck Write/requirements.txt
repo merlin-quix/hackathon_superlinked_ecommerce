@@ -1,2 +1,5 @@
-quixstreams<2.4
+quixstreams
 python-dotenv
+duckdb
+pandas
+numpy
