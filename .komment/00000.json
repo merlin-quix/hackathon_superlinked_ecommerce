@@ -607,35 +607,40 @@
     "path": "MotherDuck Write/main.py",
     "content": {
       "structured": {
-        "description": "An application using QuixStreams to read data from a specified input topic and process it by calling a custom sink function for each message received. The sink function extracts a value from the message and writes it to a database or triggers an alert, although this is not implemented in the provided code.",
+        "description": "An application that processes data from a Kafka topic using QuixStreams and writes it into a DuckDB database. The data is processed in real-time, updating tables with statistics on referrals, page views, daily views, and total views. The code also handles conflicts when inserting new data to avoid duplicate entries.",
         "items": [
           {
-            "id": "e769709c-d89a-36bc-c04e-6c7fbe37e884",
+            "id": "43c38f6c-eb28-0a82-094c-1b9500957a5c",
             "ancestors": [],
-            "description": "Extracts a value associated with the key `'mykey'` from a given `message`.",
+            "description": "Collects statistics from input messages and writes them to a DuckDB database, specifically to tables for referral records, page views, daily view counts, and total view aggregates, handling potential conflicts with existing data.",
             "params": [
               {
-                "name": "message",
+                "name": "conn",
+                "type_name": "DuckDB connection object | AnyOtherDatabaseConnectionObject",
+                "description": "Used to execute SQL queries on a database."
+              },
+              {
+                "name": "msg",
                 "type_name": "Dict[str, Any]",
-                "description": "Expected to contain at least one key named 'mykey'."
+                "description": "Assumed to contain four keys: \"repo\", \"day_recorded\", \"referrals\", and \"views\". The values associated with these keys are used to populate tables in the DuckDB database."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "sink({'mykey': 'hello'})\n",
+              "code": "conn = None  # Assuming you have created a DuckDB connection object earlier\nmsg = {\n    \"repo\": \"my_repo\",\n    \"day_recorded\": datetime.date(2022, 1, 1),\n    \"referrals\": [{\"referrer\": \"user1\", \"count\": 10, \"uniques\": 5}],\n    \"pageviews\": [{\"path\": \"/home\", \"title\": \"Home page\", \"count\": 20, \"uniques\": 15}],\n    \"views\": {\"views\": [{\"timestamp\": datetime.date(2022, 1, 1), \"count\": 30, \"uniques\": 25}]}\n}\nto_duckdb(conn, msg)",
               "description": ""
             },
-            "name": "sink",
+            "name": "to_duckdb",
             "location": {
-              "start": 8,
-              "insert": 9,
+              "start": 22,
+              "insert": 23,
               "offset": " ",
               "indent": 4,
               "comment": null
             },
             "item_type": "function",
-            "length": 4,
+            "length": 98,
             "docLength": null
           }
         ]
