@@ -3,4 +3,3 @@ flask_cors
 waitress
 python-dotenv
 duckdb
-pandas
