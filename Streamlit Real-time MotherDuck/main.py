@@ -11,7 +11,6 @@ from bokeh.models.tools import HoverTool
 from bokeh.embed import components
 table_name = "user_events"
 
-os.environ["MOTHERDUCK_TOKEN"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoibWVybGluLnF1aXguaW8iLCJlbWFpbCI6Im1lcmxpbkBxdWl4LmlvIiwidXNlcklkIjoiMGMyZTVjMDctMGFmNi00MTE3LThiZWItYTc2NjczZmQzMmI3IiwiaWF0IjoxNzA1NDAzMzY0LCJleHAiOjE3MzY5NjA5NjR9.4chhWyjidgWCHRX4YPwDWk2ONK5wSO1cDukKjcB8i44"
 mdtoken = os.environ['MOTHERDUCK_TOKEN']
 
 os.environ["MOTHERDUCK_DATABASE"] = "my_db"
