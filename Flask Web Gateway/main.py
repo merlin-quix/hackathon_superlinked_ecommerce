@@ -2,14 +2,14 @@ import os
 from flask import Flask, jsonify
 from waitress import serve
 import duckdb
-
-from setup_logging import get_logger
+import logging
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-logger = get_logger()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
