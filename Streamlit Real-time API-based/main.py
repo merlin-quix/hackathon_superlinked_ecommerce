@@ -1,29 +1,21 @@
 import streamlit as st
-import duckdb
+import requests
 import time
-import os
 import pandas as pd
-import time
 from datetime import datetime
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, Range1d
 from bokeh.models.tools import HoverTool
-from bokeh.embed import components
-table_name = "user_events"
 
-mdtoken = os.environ['MOTHERDUCK_TOKEN']
-mddatabase = os.environ['MOTHERDUCK_DATABASE']
+# API endpoint URL
+api_url = "https://flaskwebgateway-c8b2898-demo-superlinkeddemo-main.demo.quix.io//events"
 
-# initiate the MotherDuck connection through a service token through
-conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
-
-table_name = "user_events"
-
-## Function to get data from MotherDuck
+## Function to get data from the API
 def get_data():
-    print(f"[{datetime.now()}] Running query...")
-    query = f"SELECT page_id, count FROM {table_name} ORDER BY page_id ASC"
-    df = conn.execute(query).fetchdf()
+    print(f"[{datetime.now()}] Fetching data from API...")
+    response = requests.get(api_url)
+    data = response.json()
+    df = pd.DataFrame(data)
     return df
 
 # Function to get data and cache it
@@ -33,8 +25,8 @@ def get_cached_data():
 
 # Streamlit UI
 st.title("Real-time Dashboard Example Using Streamlit and Quix")
-st.markdown("This dasboard reads from a table in MotherDuck which is being continuously updated by a sink process in Quix Cloud. It then displays a dynamically updating Bokeh chart and table underneath.")
-st.markdown("In Quix Cloud, we are:\n * Generating synthetic user logs\n * Streaming the data to kafka\n * Reading from Kafka and aggregating the actions per page\n * Sinking the page view counts (which are continuously updating) to MotherDuck\n\n ")
+st.markdown("This dashboard reads from a table via an API, which is being continuously updated by a sink process in Quix Cloud. It then displays a dynamically updating Bokeh chart and table underneath.")
+st.markdown("In Quix Cloud, we are:\n * Generating synthetic user logs\n * Streaming the data to Kafka\n * Reading from Kafka and aggregating the actions per page\n * Sinking the page view counts (which are continuously updating) to MotherDuck\n\n ")
 st.markdown("What users could learn: How to read from a real-time source and apply some kind of transformation to the data before bringing it into Streamlit (using only Python)")
 
 # Placeholder for the bar chart and table
