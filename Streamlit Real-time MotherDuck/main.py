@@ -12,8 +12,6 @@ from bokeh.embed import components
 table_name = "user_events"
 
 mdtoken = os.environ['MOTHERDUCK_TOKEN']
-
-os.environ["MOTHERDUCK_DATABASE"] = "my_db"
 mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
 # initiate the MotherDuck connection through a service token through
