@@ -92,3 +92,4 @@ topics:
   - name: user-actions
   - name: raw_data
   - name: page-view-counts
+  - name: processed_data
