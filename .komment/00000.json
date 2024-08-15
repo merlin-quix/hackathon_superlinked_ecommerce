@@ -601,5 +601,45 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "MotherDuck Write/main.py",
+    "content": {
+      "structured": {
+        "description": "An application using QuixStreams to read data from a specified input topic and process it by calling a custom sink function for each message received. The sink function extracts a value from the message and writes it to a database or triggers an alert, although this is not implemented in the provided code.",
+        "items": [
+          {
+            "id": "e769709c-d89a-36bc-c04e-6c7fbe37e884",
+            "ancestors": [],
+            "description": "Extracts a value associated with the key `'mykey'` from a given `message`.",
+            "params": [
+              {
+                "name": "message",
+                "type_name": "Dict[str, Any]",
+                "description": "Expected to contain at least one key named 'mykey'."
+              }
+            ],
+            "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "sink({'mykey': 'hello'})\n",
+              "description": ""
+            },
+            "name": "sink",
+            "location": {
+              "start": 8,
+              "insert": 9,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 4,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]
