@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-12T14:53:44.249Z",
+    "updated_at": "2024-08-15T16:13:58.629Z",
     "created_at": "2024-08-05T13:47:40.393Z",
     "pipelines": [
       "f0880a40-d3c0-4524-a003-b3a1225271b7",
@@ -25,7 +25,8 @@
       "97732a1e-77ba-456a-8ea1-0bb46981623a",
       "e3b35a44-007c-40f5-825a-5d818aad3c82",
       "f985c474-5087-41c1-b25e-f0c716b76da7",
-      "0561ca48-4995-41fc-bf5d-bfe2e1576072"
+      "0561ca48-4995-41fc-bf5d-bfe2e1576072",
+      "95d785b0-6914-4ee3-8241-4d2d1417df0a"
     ]
   },
   "lookup": [
@@ -34,7 +35,9 @@
       "Superlinked Server Sink/main.py",
       "ingest-events/main.py",
       "Streamlit Recommendations Dash/main.py",
-      "Streamlit Recommendations Dash/main_backup.py"
+      "Streamlit Recommendations Dash/main_backup.py",
+      "Flask Web Gateway/main.py",
+      "Flask Web Gateway/setup_logging.py"
     ]
   ]
 }
