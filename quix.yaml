@@ -104,6 +104,40 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: processed_data
+  - name: MotherDuck Write
+    application: MotherDuck Write
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: processed_data
+      - name: MOTHERDUCK_TOKEN
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: mdtoken
+      - name: MOTHERDUCK_DATABASE
+        inputType: FreeText
+        description: ''
+        required: false
+        value: my_db
+      - name: CONSUMER_GROUP_NAME
+        inputType: FreeText
+        description: ''
+        required: false
+        value: md-write-test
+      - name: db_table_name
+        inputType: FreeText
+        description: ''
+        required: false
+        value: user_events
 
 # This section describes the Topics of the data pipeline
 topics:
