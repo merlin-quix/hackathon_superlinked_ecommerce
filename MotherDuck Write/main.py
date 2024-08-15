@@ -16,6 +16,14 @@ logger = logging.getLogger(__name__)
 
 user_events_table = "user_events"
 
+#      payload = {
+#           "user": user,
+#           "product": product,
+#           "event_type": event_type,
+#           "id": generate_random_event_id(),
+#           "created_at": current_time
+#       }
+
 def to_duckdb(conn, msg):
     try:
         sourcerepo = msg["repo"]
@@ -29,20 +37,17 @@ def to_duckdb(conn, msg):
 
             conn.execute(f'''
                 CREATE TABLE {user_events_table} (
-                    repo VARCHAR,
-                    referrer VARCHAR,
-                    count INTEGER,
-                    uniques INTEGER,
-                    day TIMESTAMP,
-                    UNIQUE(repo, referrer, day)
+                    user VARCHAR,
+                    product VARCHAR,
+                    event_type INTEGER,
+                    id INTEGER,
+                    created_at TIMESTAMP,
                 );
             ''')
 
         for record in msg["referrals"]:
             conn.execute(f'''
-                INSERT INTO {user_events_table} (repo, referrer, count, uniques, day) VALUES (?, ?, ?, ?, ?)
-                ON CONFLICT (repo, referrer, day) # Need to overwrite rather than insert if same combo of date-repo-referrer already exists
-                DO UPDATE SET count = excluded.count, uniques = excluded.uniques;
+                INSERT INTO {user_events_table} (user, product, event_type, uniques, day) VALUES (?, ?, ?, ?, ?)
                 ''', (sourcerepo, record['referrer'], record['count'], record['uniques'], reportedtime))
             logger.info(f"Wrote referral record: {record}")
 
