@@ -1,45 +1,38 @@
 import os
-import datetime
-import json
-
-from flask import Flask, request, Response
+from flask import Flask, jsonify
 from waitress import serve
+import duckdb
 
 from setup_logging import get_logger
-
-from quixstreams.platforms.quix import QuixKafkaConfigsBuilder
-from quixstreams.kafka import Producer
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-cfg_builder = QuixKafkaConfigsBuilder()
-cfgs, topics, _ = cfg_builder.get_confluent_client_configs([os.environ["output"]])
-producer = Producer(cfgs.pop("bootstrap.servers"), extra_config=cfgs)
-
-
 logger = get_logger()
 
 app = Flask(__name__)
 
+# Replace with your MotherDuck connection string
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
 
-@app.route("/data/", methods=['POST'])
-def post_data():
-    
-    data = request.json
+# initiate the MotherDuck connection through a service token through
+conn = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
-    print(data)
+@app.route('/events', methods=['GET'])
+def get_user_events():
+    query = "SELECT * FROM user_events ORDER BY page_id ASC"
 
-    logger.info(f"{str(datetime.datetime.utcnow())} posted.")
-    
-    producer.produce(topics[0], json.dumps(data), data["sessionId"])
+    logger.info(f"Running query: {query}")
 
-    response = Response(status=200)
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # Execute the query
+    results = conn.execute(query).fetchdf()
 
-    return response
+    # Convert the result to a list of dictionaries
+    results_list = results.to_dict(orient='records')
 
+    return jsonify(results_list)
 
 if __name__ == '__main__':
     serve(app, host="0.0.0.0", port=80)
