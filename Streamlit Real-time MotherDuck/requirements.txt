@@ -4,3 +4,4 @@ python-dotenv
 bokeh==2.4.3
 pandas==1.3.4
 numpy==1.21.4
+duckdb
