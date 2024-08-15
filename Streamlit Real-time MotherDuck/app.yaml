@@ -5,6 +5,11 @@ variables:
     inputType: InputTopic
     description: Name of the input topic to listen to.
     required: true
+  - name: MOTHERDUCK_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: mdtoken
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: streamlit_file.py
