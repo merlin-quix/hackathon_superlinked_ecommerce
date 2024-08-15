@@ -1,4 +1,5 @@
 streamlit
 python-dotenv
 bokeh==2.4.3
+numpy==1.21.4
 pandas==1.3.4
