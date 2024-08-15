@@ -607,34 +607,34 @@
     "path": "MotherDuck Write/main.py",
     "content": {
       "structured": {
-        "description": "An application that consumes data from a Kafka topic and writes it into a persisted DuckDB database. The application uses the QuixStreams library to connect to the Kafka topic and create a streaming dataframe from its input. The code then checks if a target table exists in the database, creates it if not, and inserts data into it while updating counts for existing page IDs.",
+        "description": "An application using Quix Streams that consumes data from a Kafka topic, processes it as a streaming DataFrame, and writes the results to a table in a MotherDuck database. The table is created if it does not exist. Data is inserted into the table or updated if the page_id already exists.",
         "items": [
           {
-            "id": "6638ff74-ac48-d49e-584c-a786fa60db20",
+            "id": "b51fa580-f30e-f38b-4247-7f1692368f3c",
             "ancestors": [],
-            "description": "Executes an SQL query to insert data into a table, specifying page ID and count values from the `msg` dictionary. If there's a conflict (i.e., a record with the same page ID already exists), it updates the existing record by setting its count to the new value.",
+            "description": "Inserts data into a database table named `{tablename}` with columns `page_id` and `count`. If a record with the same `page_id` already exists, it updates the existing record by setting its `count` value to the new one provided in `msg['action_count']`.",
             "params": [
               {
                 "name": "con",
                 "type_name": "sqlite3.Connection",
-                "description": "Used to execute SQL commands and interact with a SQLite database."
+                "description": "Used to execute SQL commands on a SQLite database. It represents a connection to the database that can be used for querying, creating or modifying data within the database."
               },
               {
                 "name": "msg",
                 "type_name": "Dict[str, Union[int, str]]",
-                "description": "Expected to contain at least two key-value pairs: 'page_id' which should be an integer and 'action_count' which could be any valid Python object."
+                "description": "Expected to contain at least two key-value pairs: 'page_id' with an integer value, 'action_count' with an integer value."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "con = connect_to_database()\ninsert_data(con, {'page_id': 'abc', 'action_count': 10})\n",
+              "code": "tablename = \"my_table\"\nmsg = {\"page_id\": 123, \"action_count\": 456}\ninsert_data(conn, msg)",
               "description": ""
             },
             "name": "insert_data",
             "location": {
-              "start": 40,
-              "insert": 42,
+              "start": 43,
+              "insert": 45,
               "offset": " ",
               "indent": 4,
               "comment": null

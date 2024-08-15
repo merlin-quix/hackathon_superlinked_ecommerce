@@ -10,14 +10,17 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize the Quix Application with the connection configuration
-app = Application(consumer_group="count-consumer-v1e",
+app = Application(consumer_group="count-consumer-v1",
                   auto_offset_reset="earliest")
 
 input_topic = app.topic(os.getenv("input","processed_data")) # Define the input topic to consume from
 tablename = os.getenv("db_table_name","page_actions") # The name of the table we want to write to
 sdf = app.dataframe(input_topic) # Turn the data from the input topic into a streaming dataframe
 
-con = duckdb.connect("stats.db") # Connect to a persisted DuckDB database on the filesystem
+mdtoken = os.environ['MOTHERDUCK_TOKEN']
+mddatabase = os.environ['MOTHERDUCK_DATABASE']
+# initiate the MotherDuck connection through a service token through
+con = duckdb.connect(f'md:{mddatabase}?motherduck_token={mdtoken}')
 
 try:
     # Do a basic check if the target table exists and create it if not
@@ -40,17 +43,17 @@ except duckdb.CatalogException as e:
 def insert_data(con, msg):
     # Insert data into the DB and if the page_id exists, update the count in the existing row
     """
-    Executes an SQL query to insert data into a table, specifying page ID and count
-    values from the `msg` dictionary. If there's a conflict (i.e., a record with
-    the same page ID already exists), it updates the existing record by setting
-    its count to the new value.
+    Inserts data into a database table named `{tablename}` with columns `page_id`
+    and `count`. If a record with the same `page_id` already exists, it updates
+    the existing record by setting its `count` value to the new one provided in `msg['action_count']`.
 
     Args:
-        con (sqlite3.Connection): Used to execute SQL commands and interact with
-            a SQLite database.
+        con (sqlite3.Connection): Used to execute SQL commands on a SQLite database.
+            It represents a connection to the database that can be used for querying,
+            creating or modifying data within the database.
         msg (Dict[str, Union[int, str]]): Expected to contain at least two key-value
-            pairs: 'page_id' which should be an integer and 'action_count' which
-            could be any valid Python object.
+            pairs: 'page_id' with an integer value, 'action_count' with an integer
+            value.
 
     """
     con.execute(f'''
