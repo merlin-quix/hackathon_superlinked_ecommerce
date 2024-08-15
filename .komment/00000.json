@@ -533,35 +533,8 @@
     "path": "Flask Web Gateway/main.py",
     "content": {
       "structured": {
-        "description": "A Flask web application that connects to a MotherDuck database using a service token and retrieves user events from the database. The application listens on port 80 and responds to GET requests at the '/events' endpoint.",
-        "items": [
-          {
-            "id": "fb35cd87-6f56-71a7-934f-934b456123fe",
-            "ancestors": [],
-            "description": "Retrieves a list of user events from a database, sorts them by page ID in ascending order, and returns the result as JSON data.",
-            "params": [],
-            "returns": {
-              "type_name": "List[Dict]",
-              "description": "A list of dictionaries where each dictionary represents an event, and the keys of these dictionaries are column names from the user_events table."
-            },
-            "usage": {
-              "language": "python",
-              "code": "response = requests.get('http://localhost:5000/events')\nevents_list = response.json()\nfor event in events_list:\n    print(event)",
-              "description": ""
-            },
-            "name": "get_user_events",
-            "location": {
-              "start": 23,
-              "insert": 25,
-              "offset": " ",
-              "indent": 4,
-              "comment": null
-            },
-            "item_type": "function",
-            "length": 11,
-            "docLength": null
-          }
-        ]
+        "description": "An application that interacts with Kafka using Quix Streams. It creates a topic and publishes data to it from a hardcoded dataset. The dataset represents used memory allocation over time for hosts. The data is published in JSON format to the specified topic.",
+        "items": []
       }
     }
   },
