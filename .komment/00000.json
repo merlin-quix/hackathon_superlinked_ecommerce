@@ -806,5 +806,68 @@
         ]
       }
     }
+  },
+  {
+    "name": "main.py",
+    "path": "Taipy Dashboard/main.py",
+    "content": {
+      "structured": {
+        "description": "A Streamlit application that reads real-time data from a Quix API endpoint and displays it in a Bokeh chart and table. The data is retrieved through an API call using the requests package, and then processed into a pandas DataFrame for display. The application uses Streamlit's caching mechanism to ensure that new data is fetched periodically, updating the displayed chart and table in real-time.",
+        "items": [
+          {
+            "id": "3700f50f-9525-6888-d84a-ed70fbbeb586",
+            "ancestors": [],
+            "description": "Retrieves data from a specified API URL using the GET method, converts the response into a JSON format, and then constructs a Pandas DataFrame from it. The current date and time is printed before making the API request.",
+            "params": [],
+            "returns": {
+              "type_name": "pandasDataFrame",
+              "description": "A structured representation of tabular data, typically used to store and manipulate large datasets."
+            },
+            "usage": {
+              "language": "python",
+              "code": "df = get_data()\n# process data in df\n",
+              "description": "\n\nNote: In this example, it is assumed that api_url has been defined previously with a valid URL."
+            },
+            "name": "get_data",
+            "location": {
+              "start": 14,
+              "insert": 15,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 6,
+            "docLength": null
+          },
+          {
+            "id": "f1f7807b-e425-91b1-4741-9d73775a3718",
+            "ancestors": [],
+            "description": "Caches the result of the `get_data()` call, returning it instead of recalculating it each time it's called. This can significantly speed up code execution if `get_data()` is a computationally expensive operation.",
+            "params": [],
+            "returns": {
+              "type_name": "Any",
+              "description": "Determined by the `get_data()` function called inside it. This implies that `get_data()` may return any data, and this cached function just fetches that result without recomputing it."
+            },
+            "usage": {
+              "language": "python",
+              "code": "result = get_cached_data()\n# Use the result as needed\n",
+              "description": ""
+            },
+            "name": "get_cached_data",
+            "location": {
+              "start": 22,
+              "insert": 24,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": null
+          }
+        ]
+      }
+    }
   }
 ]
