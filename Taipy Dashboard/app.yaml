@@ -1,0 +1,6 @@
+name: Taipy Dashboard
+language: python
+variables: []
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: streamlit_file.py
