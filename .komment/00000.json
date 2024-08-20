@@ -869,5 +869,15 @@
         ]
       }
     }
+  },
+  {
+    "name": "sender.py",
+    "path": "Taipy Dashboard/sender.py",
+    "content": {
+      "structured": {
+        "description": "A pollution simulation system that generates and updates pollution levels at discrete latitudes and longitudes around a factory. The system uses numerical computations with numpy and mathematical functions from math module to calculate pollution levels based on distance from the factory and a random component. It then sends this data over a socket connection in real-time.",
+        "items": []
+      }
+    }
   }
 ]
